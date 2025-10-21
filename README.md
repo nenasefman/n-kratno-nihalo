@@ -1,4 +1,4 @@
-# n-kratno-nihalo
+# n-kratno nihalo
 
 
 Ekipa: 
