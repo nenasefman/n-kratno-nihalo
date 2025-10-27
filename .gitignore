@@ -205,21 +205,3 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-
-# Ignore LaTeX (pomožne datoteke)
-*.aux
-*.fdb_latexmk
-*.fls
-*.out
-*.synctex.gz
-*.log
-*.toc
-*.lof
-*.lot
-*.bbl
-*.blg
-
-# Ohrani samo .tex, .pdf in slike
-!*.tex
-!*.pdf
-!*.png
