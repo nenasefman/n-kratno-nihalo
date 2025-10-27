@@ -529,6 +529,9 @@ INPUT C:\Program Files\MiKTeX\tex\latex\base\inputenc.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\base\inputenc.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\base\inputenc.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\base\inputenc.sty
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.aux
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.aux
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.aux
 OUTPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.aux
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -584,12 +587,28 @@ INPUT C:\Program Files\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Program Files\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Program Files\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Program Files\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
-OUTPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
 OUTPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.pdf
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
+OUTPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
 INPUT C:\Program Files\MiKTeX\tex\latex\biblatex\lbx\slovene.lbx
 INPUT C:\Program Files\MiKTeX\tex\latex\biblatex\lbx\slovene.lbx
 INPUT C:\Program Files\MiKTeX\tex\latex\biblatex\lbx\slovene.lbx
 OUTPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bcf
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bbl
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bbl
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bbl
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bbl
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bbl
+INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.bbl
 INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\ecrm1728.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr17.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
@@ -635,7 +654,6 @@ INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihal
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\primer_dveh_slika.png
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\primer_dveh_slika.png
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\primer_dveh_slika.png
-INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\ecbx1095.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
@@ -646,17 +664,25 @@ INPUT C:\Users\nenas\AppData\Local\MiKTeX\pdftex\config\pdftex.map
 INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\ecti1095.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\ecrm0800.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\ecrm0600.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\eccc1095.tfm
+INPUT C:\Program Files\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\ectt1095.tfm
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.aux
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.out
 INPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.run.xml
 OUTPUT c:\Users\nenas\OneDrive\Documents\Matematika z racunalnikom\n-kratno-nihalo\teorija\teorija.run.xml
+INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1095.pk
+INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1095.pk
+INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1095.pk
+INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1095.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1095.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1095.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk
-INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1095.pk
-INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1095.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk
 INPUT C:\Users\nenas\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk
