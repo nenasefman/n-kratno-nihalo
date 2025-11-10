@@ -2,68 +2,60 @@ import numpy as np
 import sympy as sp
 from scipy.integrate import odeint
 
-
 ## -- PODATKI --
+n = 2  # število nihal
 
-# dolžine vrvic in mase krogljic
-l1, l2 = 1, 1
-m1, m2 = 1, 1
 # gravitacija
-g = 9.81
+g_val = 9.81 
+l_val = [1 for _ in range(n)]
+m_val = [1 for _ in range(n)]
 
-
-## -- SIMBOLIČNO IZRAČUNAMO SISTEM DIFERENCIALNIH ENAČB --
-n = 3
+## -- SIMBOLIČNI IZRAČUN SISTEMA DE --
 t = sp.Symbol('t', real=True)
 
-# za prvega napišemo:
-m1, l1 = sp.symbols('m1 l1', real=True, positive=True)
-theta1 = sp.Function('theta1')(t) #kota sta odvisna od časa
-x = [l1 * sp.sin(theta1)]
-y = [-l1 * sp.cos(theta1)]
+# simbole za mase, dolžine in gravitacijo
+m = sp.symbols(f'm1:{n+1}', real=True, positive=True)  # (m1, m2, ..., mn)
+l = sp.symbols(f'l1:{n+1}', real=True, positive=True)
+g = sp.Symbol('g', real=True, positive=True)
 
-thete = [theta1] # seznam thet
+# koti kot funkcije časa
+theta = [sp.Function(f'theta{i+1}')(t) for i in range(n)]
+
+# koordinate kroglic
+x = [l[0]*sp.sin(theta[0])]
+y = [-l[0]*sp.cos(theta[0])]
 
 for i in range(1, n):
-    m_i, l_i = sp.symbols(f'm{i+1} l{i+1}', real=True, positive=True)
-    theta_i = sp.Function(f'theta{i + 1}')(t)  # θ_i(t)
-    thete.append(theta_i)
-    x.append(x[i-1] + l_i * sp.sin(theta_i))
-    y.append(y[i-1] - l_i * sp.cos(theta_i))
+    x.append(x[i-1] + l[i]*sp.sin(theta[i]))
+    y.append(y[i-1] - l[i]*sp.cos(theta[i]))
 
-dx = []
-dy = []
+# hitrosti v x in y smeri kot odvodi po času
+dx = [sp.diff(xi, t) for xi in x]
+dy = [sp.diff(yi, t) for yi in y]
 
+# kinetična energija
+T = 0
 for i in range(n):
-    dx.append(sp.diff(x[i], t))
-    dy.append(sp.diff(y[i], t))
+    T += (m[i]/2)*(dx[i]**2 + dy[i]**2)
+T = sp.simplify(T)
 
+# potencialna energija
+V = 0
+for i in range(n):
+    V += m[i]*g*y[i]
+V = sp.simplify(V)
 
-# # kinetnična energija
-# T1 = (m1 / 2) * (dx1**2 + dy1**2)
-# T2 = (m2 / 2) * (dx2**2 + dy2**2)
-# T = sp.simplify(T1 + T2)
+# Lagrangeova funkcija
+L = sp.simplify(T - V)
 
-# #potencialna energija
-# V1 = m1 * g * y1
-# V2 = m2 * g * y2
-# V = V1 + V2
+# Euler-Lagrangeove enačbe
+eqs = []
+for i in range(n):
+    dtheta_i = sp.diff(theta[i], t)
+    eq = sp.diff(sp.diff(L, dtheta_i), t) - sp.diff(L, theta[i])
+    eqs.append(sp.simplify(eq))
 
-# # Lagrangeova funkcija
-# L = sp.simplify(T - V)
+# drugi odvodi
+ddtheta = [sp.Derivative(theta[i], (t, 2)) for i in range(n)]
 
-# # Euler-Lagrangeove enačbe
-# dtheta1 = sp.diff(theta1, t)
-# dtheta2 = sp.diff(theta2, t)
-
-# eq1 = sp.simplify(sp.diff(sp.diff(L, dtheta1), t) - sp.diff(L, theta1))
-# eq2 = sp.simplify(sp.diff(sp.diff(L, dtheta2), t) - sp.diff(L, theta2))
-
-# # izrazimo ddtheta1 in ddtheta2
-# ddtheta1 = sp.Derivative(theta1, (t, 2))
-# ddtheta2 = sp.Derivative(theta2, (t, 2))
-
-# # pretvoriva v sistem diferencialnih enačb 1. reda
-# z1, z2 = dtheta1, dtheta2
-# dz1, dz2 = sp.solve([eq1, eq2], [ddtheta1, ddtheta2], simplify=True, rational=False) 
-
+dz = [sp.solve(eqs, ddtheta, simplify=True, rational=False)]
