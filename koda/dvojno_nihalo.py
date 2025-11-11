@@ -61,15 +61,26 @@ ddtheta2 = sp.Derivative(theta2, (t, 2))
 
 # pretvoriva v sistem diferencialnih enačb 1. reda
 z1, z2 = dtheta1, dtheta2
-dz1, dz2 = sp.solve([eq1, eq2], [ddtheta1, ddtheta2], simplify=True, rational=False) 
+dz1, dz2 = sp.solve([eq1, eq2], [ddtheta1, ddtheta2], simplify=True, rational=False).values()
 
 
 ## -- REŠIMO SISTEM DIFERENCIALNIH ENAČB --
 
-tmax, dt = 10, 0.01
-t = np.arange(0, tmax)
-zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+#pretvorimo nazaj v numerične funkcije 
+f_dz1 = sp.lambdify([theta1, theta2, z1, z2, l1, l2, m1, m2, g], dz1, "numpy")
+f_dz2 = sp.lambdify([theta1, theta2, z1, z2, l1, l2, m1, m2, g], dz2, "numpy")
 
-rk = odeint([z1, dz1, z2, dz2], zac_pog, t, args=(l1, l2, m1, m2))
+
+#def sistem_num(y, l1, l2, m1, m2, g):
+#    theta1, z1, theta2, z2 = y
+#    dz1_vred = f_dz1(theta1, theta2, z1, z2, l1, l2, m1, m2, g)
+#    dz2_vred = f_dz2(theta1, theta2, z1, z2, l1, l2, m1, m2, g)
+#    return [z1, dz1_vred, z2, dz2_vred]
+#
+#tmax, dt = 10, 0.01
+#t = np.arange(0, tmax)
+#zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+#
+#rk = odeint(sistem_num, zac_pog, t, args=(l1, l2, m1, m2))
 
 
