@@ -1,4 +1,4 @@
-import os
+import os, glob
 import numpy as np
 import sympy as sp
 from scipy.integrate import odeint
@@ -116,9 +116,14 @@ y1 = -l1 * np.cos(theta1)
 x2 = x1 + l2 * np.sin(theta2)
 y2 = y1 - l2 * np.cos(theta2)
 
-# direktorij za shranjevanje
+# direktorij za shranjevanje, vskič ko poženem se slikice v mapi pobrišejo in shranijo na novo
 shr_dir = "./output/dvojno_nihalo_frames"
 os.makedirs(shr_dir, exist_ok=True)
+
+files = glob.glob(os.path.join(shr_dir, "*.png"))
+for f in files:
+    os.remove(f)
+
 # radij kroglic
 radij = 0.03
 
@@ -156,5 +161,4 @@ fps = 10
 k = int((1/fps)/dt)
 
 for t_i in range(0, t.size, k):
-    print(t_i)
     narisi_sliko(t_i)
