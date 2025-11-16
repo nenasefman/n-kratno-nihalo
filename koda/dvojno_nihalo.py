@@ -1,6 +1,9 @@
+import os
 import numpy as np
 import sympy as sp
 from scipy.integrate import odeint
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle
 
 
 ## -- SIMBOLIČNO IZRAČUNAMO SISTEM DIFERENCIALNIH ENAČB --
@@ -53,7 +56,8 @@ ddtheta2 = sp.Derivative(theta2, (t, 2))
 dz1_o, dz2_o = sp.solve([eq1, eq2], [ddtheta1, ddtheta2], simplify=True, rational=False).values()
 
 
-## -- REŠIMO SISTEM DIFERENCIALNIH ENAČB --
+
+## -- NUMERIČNO REŠIMO SISTEM DIFERENCIALNIH ENAČB --
 
 #zamenjava funkcij s simboli
 th1, th2, z1, z2 = sp.symbols("th1 th2 z1 z2")
@@ -73,10 +77,6 @@ dz2 = sp.simplify(dz2_o.subs(zamenjave_sl))
 # iz simbolnega računanja gremo nazaj na numerično računanje
 f_dz1 = sp.lambdify([th1, th2, z1, z2, l1, l2, m1, m2, g], dz1, "numpy")
 f_dz2 = sp.lambdify([th1, th2, z1, z2, l1, l2, m1, m2, g], dz2, "numpy")
-
-rez = f_dz1(np.pi/4, np.pi/3, 0.1, 0.2, 1, 1, 1, 1, 9.81)
-print("Rezultat f_dz1 =", rez)
-print("Tip rezultata =", type(rez))
 
 # sistem diferencialnih enačb
 def sistem_num(y, t, l1, l2, m1, m2, g):
@@ -98,10 +98,63 @@ g = 9.81
 
 # numerična integracija
 tmax, dt = 10, 0.01
-t = np.arange(0, tmax, dt)
+t = np.arange(0, tmax + dt, dt)
 zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
 
-rk = odeint(sistem_num, zac_pog, t, args=(l1, l2, m1, m2, g))
+resen = odeint(sistem_num, zac_pog, t, args=(l1, l2, m1, m2, g))
 
-print("Integracija uspešno zaključena. Končni kot theta1:", rk[:5])
 
+
+
+## -- RISANJE (OSNOVNO) --
+
+# kote pretvorim v koordinate x in y
+theta1, theta2 = resen[:, 0], resen[:, 2]
+
+x1 = l1 * np.sin(theta1)
+y1 = -l1 * np.cos(theta1)
+x2 = x1 + l2 * np.sin(theta2)
+y2 = y1 - l2 * np.cos(theta2)
+
+# direktorij za shranjevanje
+shr_dir = "./output/dvojno_nihalo_frames"
+os.makedirs(shr_dir, exist_ok=True)
+# radij kroglic
+radij = 0.03
+
+def narisi_sliko(t_i):
+    ''' Nariše in shrani sliko nihala ob času t_i.'''
+
+    # narišem palčke od (0,0) do 1. in 2. kroglice
+    ax.plot([0, x1[t_i], x2[t_i]], [0, y1[t_i], y2[t_i]], lw=1, c='k')
+
+    # narišem kroglice
+    c0 = Circle((0, 0), radij, fc='k', zorder=10)
+    c1 = Circle((x1[t_i], y1[t_i]), radij, fc='r', ec='r', zorder=10)
+    c2 = Circle((x2[t_i], y2[t_i]), radij, fc='r', ec='r', zorder=10)
+    ax.add_patch(c0)
+    ax.add_patch(c1)
+    ax.add_patch(c2)
+
+    # priprava slik in shranjevanje
+    ax.set_xlim(-l1-l2-radij, l1+l2+radij)
+    ax.set_ylim(-l1-l2-radij, l1+l2+radij)
+    plt.axis("off")
+    plt.savefig(f'{shr_dir}/frame_{t_i:05d}.png', dpi=72) #dpi=dots per inch, ločljivost slike
+    plt.cla()
+    
+# Generiranje slik
+
+# ustvarim figure objekt
+fig = plt.figure(figsize=(8.3333, 6.25), dpi=72)
+ax = fig.add_subplot(111) # 1x1 mreža grafov in izbere prvi (in edini) graf
+
+# vsakih k časovnih enot naredim eno sliko, tako da dobim želen fps (frames per second)
+# 1\fps = koliko sekund preteče med slikama, to delim z dt, da dobim na koliko izračunanih podatkov 
+# moram narediti eno sliko
+fps = 10
+k = int((1/fps)/dt)
+
+for t_i in range(0, t.size, k):
+    print(t_i)
+    narisi_sliko(t_i)
