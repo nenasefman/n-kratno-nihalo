@@ -47,6 +47,7 @@ dtheta2 = sp.diff(theta2, t)
 eq1 = sp.simplify(sp.diff(sp.diff(L, dtheta1), t) - sp.diff(L, theta1))
 eq2 = sp.simplify(sp.diff(sp.diff(L, dtheta2), t) - sp.diff(L, theta2))
 
+
 # izrazimo ddtheta1 in ddtheta2
 ddtheta1 = sp.Derivative(theta1, (t, 2))
 ddtheta2 = sp.Derivative(theta2, (t, 2))
