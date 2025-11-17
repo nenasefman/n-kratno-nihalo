@@ -8,5 +8,10 @@
 
 # matplotlib
 
+# NINA!
+# vse funkcije (resen_sistem_n, narisi_sliko_2, preverjanje_energije) dej sm not
+
+# nalozi stvari za videe FFmpeg
+
 
 
