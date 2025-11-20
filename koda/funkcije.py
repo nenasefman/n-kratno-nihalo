@@ -173,9 +173,26 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
 
         if shrani == 1:
             plt.savefig(f'{shr_dir}/frame_{t_i:05d}.png', dpi=72) #dpi=dots per inch, ločljivost slike
-            plt.cla()
         else:
             plt.pause(1/fps)   # animira v živo
-            plt.cla()
+        
+        plt.cla()
 
 
+## Evo, če tole odkomentiraš, lahko pogledaš, kaj soe dogaja:
+
+# tmax, dt = 10, 0.01
+# zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+# n = 2
+# l1, l2 = 1, 1
+# l_val = [l1, l2]
+# m_val = [1 for _ in range(n)]
+# g_val = 9.81
+
+# resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
+
+# radij = 0.03
+# shr_dir = "./output/dvojno_nihalo_frames"
+# fps = 10
+
+# narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
