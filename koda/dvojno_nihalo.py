@@ -5,6 +5,7 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
+from funkcije import narisi_sliko_2, resen_sistem_n
 
 ## -- SIMBOLIČNO IZRAČUNAMO SISTEM DIFERENCIALNIH ENAČB --
 
@@ -163,3 +164,20 @@ k = int((1/fps)/dt)
 
 for t_i in range(0, t.size, k):
     narisi_sliko(t_i)
+
+
+tmax, dt = 10, 0.01
+zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+n = 2
+l1, l2 = 1, 1
+l_val = [l1, l2]
+m_val = [1 for _ in range(n)]
+g_val = 9.81
+
+resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
+
+radij = 0.03
+shr_dir = "./output/dvojno_nihalo_frames"
+fps = 10
+
+narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
