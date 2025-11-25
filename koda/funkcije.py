@@ -98,24 +98,68 @@ def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
         
         return np.ravel(np.column_stack((z_, dz_)))
 
-    # gravitacija
-    # g_val = 9.81 
-
-    # dolžine vrcvic in mase
-    # l_val = [1 for _ in range(n)]
-    # m_val = [1 for _ in range(n)]
-
 
     # -- NUMERIČNA INTEGRACIJA --
-    # tmax, dt = 10, 0.01
     t = np.arange(0, tmax, dt)
-
-    # zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
 
     resen = odeint(sistem_num, zac_pog, t, args=(l_val, m_val, g_val))
 
-    # print("Integracija uspešno zaključena. Prvih nekaj rezultatov:", rk[:5])
     return resen
+
+
+def preveri_energijo_sistema(resen, g_val, m_val, l_val, tol=0.001):
+    ''' 
+    funkcija, ki sprejme:
+    - resen, ki ga dobis iz resen_sistem_n,
+    - vse vrednosti, ki si jih uporabil pri resen_sistem_n ter
+    - toleranca (za koliko največ se lahko energija spremeni)
+    in vrne:
+    - True, če je vse OK - energija se ohranja
+    - False, če nekej "ne štima"
+    '''
+    st_vr, st_st = resen.shape
+    n = st_st // 2
+
+    theta = resen[:, 0::2]
+    dtheta = resen[:, 1::2]
+
+    # x, y kot položaji kroglic
+    x = np.zeros((st_vr, n))
+    y = np.zeros((st_vr, n))
+
+    x[:,0] = l_val[0] * np.sin(theta[:,0])
+    y[:,0] = -l_val[0] * np.cos(theta[:,0])
+
+    for i in range(1, n):
+        x[:,i] = x[:,i-1] + l_val[i] * np.sin(theta[:,i])
+        y[:,i] = y[:,i-1] - l_val[i] * np.cos(theta[:,i])
+
+    # podobno še za hitrosti kroglic
+    dx = np.zeros((st_vr, n))
+    dy = np.zeros((st_vr, n))
+    
+    dx[:,0] = l_val[0] * np.cos(theta[:,0]) * dtheta[:,0]
+    dy[:,0] = l_val[0] * np.sin(theta[:,0]) * dtheta[:,0]
+    
+    for i in range(1, n):
+        dx[:,i] = dx[:,i-1] + l_val[i] * np.cos(theta[:,i]) * dtheta[:,i]
+        dy[:,i] = dy[:,i-1] + l_val[i] * np.sin(theta[:,i]) * dtheta[:,i]
+
+    T = np.zeros(st_vr)
+    V = np.zeros(st_vr)
+    
+    for i in range(n):
+        T += 0.5 * m_val[i] * (dx[:,i]**2 + dy[:,i]**2)
+        V += m_val[i] * g_val * y[:,i]
+    
+    E = T + V
+    E0 = E[0]
+    # najbrš (upam), je dovolj, da se gleda samo razlika med prvo in vsemi in potem se pogleda max od teh razlik
+    max_razlika = np.max(np.abs(E - E0))
+
+    # vrni True, če je drift znotraj tolerance, sicer False
+    return max_razlika <= tol
+
 
 
 def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
@@ -190,6 +234,8 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
 # g_val = 9.81
 
 # resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
+
+# print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
 
 # radij = 0.03
 # shr_dir = "./output/dvojno_nihalo_frames"
