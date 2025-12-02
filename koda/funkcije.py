@@ -1,14 +1,10 @@
-# NINA!
-# vse funkcije (resen_sistem_n, narisi_sliko_2, preverjanje_energije) dej sm not
-
-# nalozi stvari za videe FFmpeg
-
 import os, glob
 import numpy as np
 import sympy as sp
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
+import matplotlib.cm as cm
 
 def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
     ## -- SIMBOLIČNI IZRAČUN SISTEMA DE --
@@ -161,8 +157,34 @@ def preveri_energijo_sistema(resen, g_val, m_val, l_val, tol=0.001):
     return max_razlika <= tol
 
 
+def barva_kroglice(theta, omega, omega_max, min_svet):
+    """
+    Vrne RGBA barvo za kroglico:
+    - Hue (odtenek?) = kot theta (v HSV barvnem krogu)
+    - Value (svetlost) = |omega| / omega_max - hitrost vpliva na svetlost barve
+    - Saturation (nasičenost): 0 - nenasičena, 1 - nasičena; 
 
-def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
+    - dodaten argument min_svet malo osvetli celoten sistem (sicer je zelo hitro zelo temno)
+    """
+    # "normaliziraš", da ima kot theta vrednosti med 0 in 1 (za RGB)
+    theta_norm = (theta % (2*np.pi)) / (2*np.pi)
+    
+    # normalizacija hitrosti na [0,1]
+    omega_norm = np.clip(abs(omega) / omega_max, 0, 1)
+    
+    # osnovna barva 
+    osnovna_barva = cm.hsv(theta_norm)  # vrne tuple (R, G, B, A)
+    
+    # svetlost = omega_norm
+    R = osnovna_barva[0] * omega_norm + min_svet * (1 - omega_norm)
+    G = osnovna_barva[1] * omega_norm + min_svet * (1 - omega_norm)
+    B = osnovna_barva[2] * omega_norm + min_svet * (1 - omega_norm)
+    A = osnovna_barva[3] # nasičenost barve (privzeto cm.hsv() vrača 1)
+    
+    return (R, G, B, A)
+
+
+def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0):
     """
     Na podlagi spremenljivke shrani ali sproti pokaže animacijo slik.
     Podatki:
@@ -181,6 +203,10 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
     k = int((1/fps)/dt)
 
     theta1, theta2 = resen[:, 0], resen[:, 2]
+    
+    # kotni hitrosti (dtheta1, dtheta2):
+    omega1, omega2 = resen[:,1], resen[:,3]
+    omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
 
     x1 = l1 * np.sin(theta1)
     y1 = -l1 * np.cos(theta1)
@@ -199,13 +225,20 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
     ax = fig.add_subplot(111)
 
     for t_i in range(0, resen.shape[0], k):
-        # narišem palčke od (0,0) do 1. in 2. kroglice
-        ax.plot([0, x1[t_i], x2[t_i]], [0, y1[t_i], y2[t_i]], lw=1, c='k')
-
         # narišem kroglice
         c0 = Circle((0, 0), radij, fc='k', zorder=10)
-        c1 = Circle((x1[t_i], y1[t_i]), radij, fc='r', ec='r', zorder=10)
-        c2 = Circle((x2[t_i], y2[t_i]), radij, fc='r', ec='r', zorder=10)
+
+        barva1 = barva_kroglice(theta1[t_i], omega1[t_i], omega_max, min_sv)
+        barva2 = barva_kroglice(theta2[t_i], omega2[t_i], omega_max, min_sv)
+
+        # narišem palčke od (0,0) do 1. in 2. kroglice
+        ax.plot([0, x1[t_i]], [0, y1[t_i]], lw=1, c=barva1)
+        ax.plot([x1[t_i], x2[t_i]], [y1[t_i], y2[t_i]], lw=1, c=barva2)
+
+        # narišem kroglici
+        c1 = Circle((x1[t_i], y1[t_i]), radij, fc=barva1, ec=barva1, zorder=10)
+        c2 = Circle((x2[t_i], y2[t_i]), radij, fc=barva2, ec=barva2, zorder=10)
+
         ax.add_patch(c0)
         ax.add_patch(c1)
         ax.add_patch(c2)
@@ -223,22 +256,22 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
         plt.cla()
 
 
-## Evo, če tole odkomentiraš, lahko pogledaš, kaj soe dogaja:
+## Evo, če tole odkomentiraš, lahko pogledaš, kaj se dogaja:
 
-# tmax, dt = 10, 0.01
-# zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-# n = 2
-# l1, l2 = 1, 1
-# l_val = [l1, l2]
-# m_val = [1 for _ in range(n)]
-# g_val = 9.81
+tmax, dt = 10, 0.01
+zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+n = 2
+l1, l2 = 1, 1
+l_val = [l1, l2]
+m_val = [1 for _ in range(n)]
+g_val = 9.81
 
-# resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
+resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
 
 # print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
 
-# radij = 0.03
-# shr_dir = "./output/dvojno_nihalo_frames"
-# fps = 10
+radij = 0.03
+shr_dir = "./output/dvojno_nihalo_frames"
+fps = 10
 
-# narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
+narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=0)
