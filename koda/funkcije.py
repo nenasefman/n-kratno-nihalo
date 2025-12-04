@@ -170,7 +170,10 @@ def barva_kroglice(theta, omega, omega_max, min_svet):
     theta_norm = (theta % (2*np.pi)) / (2*np.pi)
     
     # normalizacija hitrosti na [0,1]
-    omega_norm = np.clip(abs(omega) / omega_max, 0, 1)
+    if omega_max == 0:
+        omega_norm = 0
+    else:
+        omega_norm = np.clip(abs(omega) / omega_max, 0, 1)
     
     # osnovna barva 
     osnovna_barva = cm.hsv(theta_norm)  # vrne tuple (R, G, B, A)
