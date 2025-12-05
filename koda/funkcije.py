@@ -378,10 +378,10 @@ def shrani_v_video(mapa_frameov,
     Pretvori zaporedje frame-ov v video z uporabo FFmpeg.
 
     Parametri:
-    - mapa_frameov : pot do mape, kjer so frame-i (npr. './output/frames')
-    - izhod        : ime rezultatnega videa (npr. 'video.mp4')
-    - fps          : frames per second (npr. 60)
-    - vzorec       : vzorec imena frame-ov (npr. 'frame_%05d.svg' ali 'frame_%05d.png')
+    - mapa_frameov <- pot do mape, kjer so frame-i (npr. './output/frames')
+    - izhod <- ime rezultatnega videa (npr. 'video.mp4')
+    - fps <- frames per second (npr. 60)
+    - vzorec <- vzorec imena frame-ov ('frame_%05d.png')
     """
 
     # zapomnimo si trenutno mapo
@@ -408,4 +408,4 @@ def shrani_v_video(mapa_frameov,
 
     print(f"Video shranjen kot: {os.path.join(mapa_frameov, izhod)}")
 
-# shrani_v_video("./output/dvojno_nihalo_frames", fps=30)
+shrani_v_video("./output/dvojno_nihalo_frames", fps=30)

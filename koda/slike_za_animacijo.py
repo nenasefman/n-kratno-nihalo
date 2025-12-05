@@ -114,9 +114,9 @@ radij = 0.1
 shr_dir = "./output/2x2_slikice"
 fps = 30
 
-slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0.5, shrani=0)
+slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0.5, shrani=1)
 
-
+shrani_v_video("./output/2x2_slikice", fps=30)
 
 
 
