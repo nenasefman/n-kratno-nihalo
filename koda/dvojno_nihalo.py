@@ -181,3 +181,4 @@ shr_dir = "./output/dvojno_nihalo_frames"
 fps = 10
 
 narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
+
