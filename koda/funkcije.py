@@ -5,6 +5,8 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 import matplotlib.cm as cm
+import subprocess
+import os
 
 def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
     ## -- SIMBOLIČNI IZRAČUN SISTEMA DE --
@@ -213,8 +215,8 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
 
     x1 = l1 * np.sin(theta1)
     y1 = -l1 * np.cos(theta1)
-    x2 = x1 + l2 * np.sin(theta2)
-    y2 = y1 - l2 * np.cos(theta2)
+    x2 = l1 * np.sin(theta1) + l2 * np.sin(theta2)
+    y2 = -l1 * np.cos(theta1) - l2 * np.cos(theta2)
 
     if shrani==1:
         os.makedirs(shr_dir, exist_ok=True)
@@ -224,8 +226,12 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
             os.remove(f)
 
     # --- Priprava figure ---
-    fig = plt.figure(figsize=(8.3333, 6.25), dpi=72)
+    fig = plt.figure(figsize=(1920/100, 1080/100), dpi=100)
     ax = fig.add_subplot(111)
+
+    ax.set_aspect('equal')
+
+    frame_id = 0
 
     for t_i in range(0, resen.shape[0], k):
         # narišem kroglice
@@ -252,29 +258,71 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
         plt.axis("off")
 
         if shrani == 1:
-            plt.savefig(f'{shr_dir}/frame_{t_i:05d}.png', dpi=72) #dpi=dots per inch, ločljivost slike
+            plt.savefig(f'{shr_dir}/frame_{frame_id:05d}.png', dpi=100) #dpi=dots per inch, ločljivost slike
         else:
             plt.pause(1/fps)   # animira v živo
-        
+
+        frame_id += 1        
         plt.cla()
 
 
 ## Evo, če tole odkomentiraš, lahko pogledaš, kaj se dogaja:
 
-# tmax, dt = 10, 0.01
-# zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-# n = 2
-# l1, l2 = 1, 1
-# l_val = [l1, l2]
-# m_val = [1 for _ in range(n)]
-# g_val = 9.81
-# 
-# resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
-# 
-# # print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
-# 
-# radij = 0.03
-# shr_dir = "./output/dvojno_nihalo_frames"
-# fps = 10
-# 
-# narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=0)
+tmax, dt = 10, 0.01
+zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+n = 2
+l1, l2 = 1, 1
+l_val = [l1, l2]
+m_val = [1 for _ in range(n)]
+g_val = 9.81
+
+resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
+
+# print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
+
+radij = 0.03
+shr_dir = "./output/dvojno_nihalo_frames"
+fps = 30
+
+narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=1)
+
+
+def shrani_v_video(mapa_frameov,
+                   izhod="video.mp4",
+                   fps=60,
+                   vzorec="frame_%05d.png"):
+    """
+    Pretvori zaporedje frame-ov v video z uporabo FFmpeg.
+
+    Parametri:
+    - mapa_frameov : pot do mape, kjer so frame-i (npr. './output/frames')
+    - izhod        : ime rezultatnega videa (npr. 'video.mp4')
+    - fps          : frames per second (npr. 60)
+    - vzorec       : vzorec imena frame-ov (npr. 'frame_%05d.svg' ali 'frame_%05d.png')
+    """
+
+    # zapomnimo si trenutno mapo
+    cwd = os.getcwd()
+
+    # preklopimo v mapo z frame-i
+    os.chdir(mapa_frameov)
+
+    # FFmpeg ukaz
+    cmd = [
+        "ffmpeg",
+        "-y",                       # prepiši obstoječi video
+        "-framerate", str(fps),
+        "-i", vzorec,               # npr. frame_00001.svg
+        "-pix_fmt", "yuv420p",
+        izhod
+    ]
+
+    # izvedi ukaz
+    subprocess.run(cmd)
+
+    # vrni se nazaj v prejšnjo mapo
+    os.chdir(cwd)
+
+    print(f"Video shranjen kot: {os.path.join(mapa_frameov, izhod)}")
+
+shrani_v_video("./output/dvojno_nihalo_frames", fps=30)
