@@ -8,13 +8,13 @@ import matplotlib.cm as cm
 from funkcije import *
 
 
-def slike_za_animacijo_2x2(reseni_sistemi, l, radij, dt, shr_dir, fps, min_sv = 0, shrani=0):
+def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0, shrani=0):
     """
     Funkcija nariše sliko, na kateri so na na štirih podslikah narisana dvojna nihala,
     vsako z malo drugačnima začetnim pogojem.
 
     reseni  <- seznam štirih rešenih sistemov (za vsako podsliko eden)
-    l1, l2  <- dolžini vrvic
+    l       <- dolžini vrvic 
     radij   <- radij kroglic
     dt      <- korak s katerim numerično rešujemo diferencialne enačbe
     fps     <- slike na sekundo
@@ -22,8 +22,9 @@ def slike_za_animacijo_2x2(reseni_sistemi, l, radij, dt, shr_dir, fps, min_sv = 
     shrani  <- 0 = prikaz v živo, 1 = shranjevanje frameov
     """
 
-    assert len(reseni_sistemi) == 4, "Podaj točno 4 reŠEne sisteme."
+    assert len(reseni_sistemi) == 4, "Podaj točno 4 rešene sisteme."
 
+    l1, l2 = l_val
     k = int((1/fps)/dt)
 
     # Ustvari direktorij in shrani slike
@@ -34,22 +35,20 @@ def slike_za_animacijo_2x2(reseni_sistemi, l, radij, dt, shr_dir, fps, min_sv = 
         for f in files:
             os.remove(f)
 
-    # Priprava figure
-    fig = plt.figure(figsize=(8.3333, 6.25), dpi=72)
-    ax = fig.add_subplot(111)
-
     # Figure 1920x1080
-    fig, axs = plt.subplots(2, 2, figsize=(16, 9), dpi=120)
-    axs = axs.flatten()  # za lažjo obravnavo
+    fig, axs = plt.subplots(2, 2, figsize=(1920/120, 1080/120), dpi=120) #ustvari mrežo 2x2, axs je tabela 2x2 ax objektov
+    axs = axs.flatten()  # omogoča dostop do axs[0], axs[1] itd.
 
     # Iz podatkov izračunamo max dolžino animacije
-    max_len = min([r.shape[0] for r in reseni])
+    max_len = min([r.shape[0] for r in reseni_sistemi])
+
+    frame_id = 0
 
     for frame_i in range(0, max_len, k):
 
         for idx in range(4):
             ax = axs[idx]
-            resen = reseni[idx]
+            resen = reseni_sistemi[idx]
 
             theta1, theta2 = resen[:, 0], resen[:, 2]
             omega1, omega2 = resen[:,1], resen[:,3]
@@ -57,8 +56,8 @@ def slike_za_animacijo_2x2(reseni_sistemi, l, radij, dt, shr_dir, fps, min_sv = 
 
             x1 = l1 * np.sin(theta1)
             y1 = -l1 * np.cos(theta1)
-            x2 = x1 + l2 * np.sin(theta2)
-            y2 = y1 - l2 * np.cos(theta2)
+            x2 = l1 * np.sin(theta1) + l2 * np.sin(theta2)
+            y2 = -l1 * np.cos(theta1) - l2 * np.cos(theta2)
 
             # barve
             b1 = barva_kroglice(theta1[frame_i], omega1[frame_i], omega_max, min_sv)
@@ -85,72 +84,37 @@ def slike_za_animacijo_2x2(reseni_sistemi, l, radij, dt, shr_dir, fps, min_sv = 
         plt.tight_layout()
 
         if shrani == 1:
-            plt.savefig(f"{shr_dir}/frame_{frame_i:05d}.png")
+            plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi = 120)
         else:
             plt.pause(1/fps)
+
+        frame_id += 1
 
     plt.close()
 
 
+tmax, dt = 10, 0.01
+zac_pog_1 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+zac_pog_2 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+zac_pog_3 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+zac_pog_4 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+n = 2
+l_val = [1 for _ in range(n)]
+m_val = [1 for _ in range(n)]
+g_val = 9.81
 
-def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0):
+reseni_sistemi = [
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_1),
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_2),
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_3),
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_4),
+]
 
-    k = int((1/fps)/dt)
+radij = 0.03
+shr_dir = "./output/2x2_slikice"
+fps = 10
 
-    theta1, theta2 = resen[:, 0], resen[:, 2]
-    
-    # kotni hitrosti (dtheta1, dtheta2):
-    omega1, omega2 = resen[:,1], resen[:,3]
-    omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
-
-    x1 = l1 * np.sin(theta1)
-    y1 = -l1 * np.cos(theta1)
-    x2 = x1 + l2 * np.sin(theta2)
-    y2 = y1 - l2 * np.cos(theta2)
-
-    if shrani==1:
-        os.makedirs(shr_dir, exist_ok=True)
-
-        files = glob.glob(os.path.join(shr_dir, "*.png"))
-        for f in files:
-            os.remove(f)
-
-    # --- Priprava figure ---
-    fig = plt.figure(figsize=(8.3333, 6.25), dpi=72)
-    ax = fig.add_subplot(111)
-
-    for t_i in range(0, resen.shape[0], k):
-        # narišem kroglice
-        c0 = Circle((0, 0), radij, fc='k', zorder=10)
-
-        barva1 = barva_kroglice(theta1[t_i], omega1[t_i], omega_max, min_sv)
-        barva2 = barva_kroglice(theta2[t_i], omega2[t_i], omega_max, min_sv)
-
-        # narišem palčke od (0,0) do 1. in 2. kroglice
-        ax.plot([0, x1[t_i]], [0, y1[t_i]], lw=1, c=barva1)
-        ax.plot([x1[t_i], x2[t_i]], [y1[t_i], y2[t_i]], lw=1, c=barva2)
-
-        # narišem kroglici
-        c1 = Circle((x1[t_i], y1[t_i]), radij, fc=barva1, ec=barva1, zorder=10)
-        c2 = Circle((x2[t_i], y2[t_i]), radij, fc=barva2, ec=barva2, zorder=10)
-
-        ax.add_patch(c0)
-        ax.add_patch(c1)
-        ax.add_patch(c2)
-
-        # Meje osi
-        ax.set_xlim(-l1 - l2 - radij, l1 + l2 + radij)
-        ax.set_ylim(-l1 - l2 - radij, l1 + l2 + radij)
-        plt.axis("off")
-
-        if shrani == 1:
-            plt.savefig(f'{shr_dir}/frame_{t_i:05d}.png', dpi=72) #dpi=dots per inch, ločljivost slike
-        else:
-            plt.pause(1/fps)   # animira v živo
-        
-        plt.cla()
-
-
+slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
 
 
 
