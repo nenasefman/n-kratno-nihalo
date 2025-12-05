@@ -18,13 +18,15 @@
 
 \begin{document}
 
-\title{$n$-kratno nihalo}
+\title{Animacija dvojnega nihala}
 \author{Nena Šefman Hodnik, Nina Švigelj}
 \date{}
 \maketitle
 
 
-\section{Dvojno nihalo}
+\section{Osnovni primeri}
+
+\subsection{Dvojno nihalo}
 
 Oglejmo si primer na sliki:
 
@@ -110,7 +112,7 @@ Dobimo sistem diferencialnih enačb:
     \theta_2: &\quad m_2 [l_2 \ddot{\theta_2} + g \sin \theta_2] + m_2 l_1 [\ddot{\theta_1} \cos(\theta_1 - \theta_2) - \dot{\theta_1}^2 \sin(\theta_1 - \theta_2)] =0
 \end{align*}
 
-\section{Trojno nihalo}
+\subsection{Trojno nihalo}
 Kaj pa bi se zgodilo, če vzamemo trojno nihalo? Predpostavimo, da na drugo žogico pripnemo preko vrvice $l_3$ še eno žogico z maso $m_3$.
 
 Ta žogica je na položaju 
@@ -141,11 +143,26 @@ Podobno kot za dvojno nihalo tudi tu dobimo sistem enačb za $\theta_i$, $i=1,2,
     & + m_3 l_2 [\ddot{\theta_2}\cos(\theta_2 - \theta_3) - \dot{\theta_2}^2 \sin(\theta_2 - \theta_3)] = 0
 \end{align*}
 
-\textit{Zaenkrat sva dobili idejo za reukrzijo, ki izgleda nekako tako?:}
-\begin{align*}
-    \text{Za} \ \theta_1: &\quad (\sum_{i=1}^n m_i)[l_1 \ddot{\theta_1} + g \sin \theta_1] + \sum_{i=2}^n (\sum_{j=i}^n m_j) l_i (\ddot{\theta_i} \cos (\theta_1 - \theta_i) + \dot{\theta_i}^2 \sin(\theta_1 - \theta_i)) = 0\\
-    \text{Za} \ \theta_n: &\quad m_n [l_n \ddot{\theta_n} + g \sin \theta_n] + m_n \sum_{i=1}^{n-1} l_i [\ddot{\theta_i} \cos(\theta_i - \theta_n) - \dot{\theta_i}^2 \sin (\theta_i - \theta_n)] = 0
-\end{align*}
+
+% \textit{Zaenkrat sva dobili idejo za reukrzijo, ki izgleda nekako tako?:}
+% \begin{align*}
+%     \text{Za} \ \theta_1: &\quad (\sum_{i=1}^n m_i)[l_1 \ddot{\theta_1} + g \sin \theta_1] + \sum_{i=2}^n (\sum_{j=i}^n m_j) l_i (\ddot{\theta_i} \cos (\theta_1 - \theta_i) + \dot{\theta_i}^2 \sin(\theta_1 - \theta_i)) = 0\\
+%     \text{Za} \ \theta_n: &\quad m_n [l_n \ddot{\theta_n} + g \sin \theta_n] + m_n \sum_{i=1}^{n-1} l_i [\ddot{\theta_i} \cos(\theta_i - \theta_n) - \dot{\theta_i}^2 \sin (\theta_i - \theta_n)] = 0
+% \end{align*}
+
+\section{Postopek animacije}
+Za sistem dvojnega nihala sva v pythonu napisali funkcijo \texttt{resen\_sistem\_n}, ki glede na
+\begin{itemize}
+    \item izbrane mase $m_1, m_2, \ldots, m_n$
+    \item dolžine vrvic $l_1, l_2,\ldots, l_n$
+    \item začetne $\theta_1, \theta_2, \ldots, \theta_n$
+    \item $dt\ \ldots$ korak v času
+    \item $tmax\ \ldots$ časovna dolžina videa
+\end{itemize}
+
+za vsak $t = k\cdot dt, \ k = 0,1,\ldots, \frac{tmax}{dt}$ reši sistem diferencialnih enačb in vrne matriko z elementi $[\theta_1, \dot{\theta_1}, \theta_2, \dot{\theta_2}, \ldots, \theta_n, \dot{\theta_n}]$.
+
+
 
 \printbibliography
 
