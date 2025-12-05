@@ -261,7 +261,6 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
 
 ## Evo, če tole odkomentiraš, lahko pogledaš, kaj se dogaja:
 
-<<<<<<< HEAD
 # tmax, dt = 10, 0.01
 # zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
 # n = 2
@@ -272,29 +271,10 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
 # 
 # resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
 # 
-# print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
+# # print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
 # 
 # radij = 0.03
 # shr_dir = "./output/dvojno_nihalo_frames"
 # fps = 10
 # 
-# narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
-=======
-tmax, dt = 10, 0.01
-zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-n = 2
-l1, l2 = 1, 1
-l_val = [l1, l2]
-m_val = [1 for _ in range(n)]
-g_val = 9.81
-
-resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
-
-# print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
-
-radij = 0.03
-shr_dir = "./output/dvojno_nihalo_frames"
-fps = 10
-
-narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=0)
->>>>>>> 5ab1bc3c0ae72e0b17c66a316773b64cd85b3fb0
+# narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=0)

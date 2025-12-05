@@ -1,21 +1,12 @@
 import os, glob
 import numpy as np
-import sympy as sp
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from funkcije import resen_sistem_n
 
 
-# NENA!
-
-#naredi trojno nihalo narisi_sliko_3
-
-# gravitacija
-g = 9.81
-
-
-def narisi_sliko_2(resen, l1, l2, l3, radij, dt, shr_dir, fps, shrani=0):
+def narisi_sliko_3(resen, l1, l2, l3, radij, dt, shr_dir, fps, shrani=0):
     """
     Na podlagi spremenljivke shrani ali sproti pokaže animacijo slik.
     Podatki:
@@ -93,5 +84,5 @@ radij = 0.03
 shr_dir = "./output/frojno_nihalo_frames"
 fps = 10
 
-narisi_sliko_2(resen, 1, 1, radij, dt, shr_dir, fps, shrani=0)
+narisi_sliko_3(resen, 1, 1, 1, radij, dt, shr_dir, fps, shrani=0)
 
