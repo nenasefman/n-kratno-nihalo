@@ -66,8 +66,8 @@ def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_s
             ax.clear()
 
             # palice
-            ax.plot([0, x1[frame_i]], [0, y1[frame_i]], lw=2, c=b1)
-            ax.plot([x1[frame_i], x2[frame_i]], [y1[frame_i], y2[frame_i]], lw=2, c=b2)
+            ax.plot([0, x1[frame_i]], [0, y1[frame_i]], lw=5, c=b1)
+            ax.plot([x1[frame_i], x2[frame_i]], [y1[frame_i], y2[frame_i]], lw=5, c=b2)
 
             # kroglice
             ax.add_patch(Circle((0, 0), radij, fc='k'))
@@ -93,10 +93,10 @@ def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_s
     plt.close()
 
 
-tmax, dt = 10, 0.01
+tmax, dt = 30, 0.01
 zac_pog_1 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-zac_pog_2 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-zac_pog_3 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+zac_pog_2 = np.array([np.pi/2, 0, np.pi/2, 0])
+zac_pog_3 = np.array([np.pi/2, 0, np.pi, 0])
 zac_pog_4 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
 n = 2
 l_val = [1 for _ in range(n)]
@@ -107,14 +107,15 @@ reseni_sistemi = [
     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_1),
     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_2),
     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_3),
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_4),
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_4)
 ]
 
-radij = 0.03
+radij = 0.1
 shr_dir = "./output/2x2_slikice"
-fps = 10
+fps = 30
 
-slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0, shrani=0)
+slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0.5, shrani=0)
+
 
 
 
