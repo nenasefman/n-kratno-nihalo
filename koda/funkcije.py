@@ -367,7 +367,7 @@ radij = 0.03
 shr_dir = "./output/dvojno_nihalo_frames"
 fps = 30
 
-narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=1)
+# narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, 0.4, shrani=1)
 
 
 def shrani_v_video(mapa_frameov,
@@ -408,4 +408,4 @@ def shrani_v_video(mapa_frameov,
 
     print(f"Video shranjen kot: {os.path.join(mapa_frameov, izhod)}")
 
-shrani_v_video("./output/dvojno_nihalo_frames", fps=30)
+# shrani_v_video("./output/dvojno_nihalo_frames", fps=30)
