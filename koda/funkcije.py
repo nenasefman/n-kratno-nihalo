@@ -232,13 +232,13 @@ def narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0):
 # l_val = [l1, l2]
 # m_val = [1 for _ in range(n)]
 # g_val = 9.81
-
+# 
 # resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
-
+# 
 # print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
-
+# 
 # radij = 0.03
 # shr_dir = "./output/dvojno_nihalo_frames"
 # fps = 10
-
+# 
 # narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
