@@ -178,27 +178,26 @@ def barva_sistema(theta1, theta2, omega1, omega2, omega_max):
     """
     Vrne RGBA barvo za sistem - poenotena barva obeh kroglic in obeh 
     """
-    # normalizacija kotov v [0,1]
+    # normalizacija povprečja kotov v [0,1]
     h = (((theta1 + theta2)/2 ) % (2*np.pi)) / (2*np.pi)
     
-    # Osnovna močna barva iz hue
+    # Osnovna barva iz h
     osnovna_barva = cm.hsv(h)
-    
-    # Value iz povprečne hitrosti
-    V1 = min(abs(omega1) / omega_max, 1)
-    V2 = min(abs(omega2) / omega_max, 1)
-    #svetlost = 0.2 + 0.8 * ((V1 + V2) / 2)  # V med 0.2 in 1
-    svetlost = 1
 
-    R = osnovna_barva[0] * svetlost
-    G = osnovna_barva[1] * svetlost
-    B = osnovna_barva[2] * svetlost
-    A = 0.3 + 0.7 * ((V1 + V2) / 2)
+    # nasicenost kot kvadratni koren vsote kvadratov kotnih hitrosti
+    nasicenost = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
+
+    sivine = 1 # ni sivin :)
+
+    R = osnovna_barva[0] * sivine
+    G = osnovna_barva[1] * sivine
+    B = osnovna_barva[2] * sivine
+    A = 0.2 + 0.8 * nasicenost  #nasičenost
 
     return (R, G, B, A)
 
 
-# RAIČEVA IDEJA thet - koordinatni sistem theta_1, theta_2 (barva = kotnahitrost_1, divina = kotna_hitrost2)
+# RAIČEVA IDEJA thet - koordinatni sistem theta_1, theta_2 (barva = kotnahitrost_1, sivina = kotna_hitrost2)
 
 
 def barva_kroglice(theta, omega, omega_max, min_svet):
@@ -434,7 +433,7 @@ fps = 30
 # narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
 
 
-# shrani_v_video("./output/dvojno_nihalo_frames", fps=30)
+# shrani_v_video("./output/5x8_slikice", fps=30)
 
 
 def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, min_sv = 0, shrani=0):
