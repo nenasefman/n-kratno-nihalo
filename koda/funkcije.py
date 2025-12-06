@@ -239,7 +239,7 @@ def shrani_v_video(mapa_frameov,
 
     Parametri:
     - mapa_frameov <- pot do mape, kjer so frame-i
-    - izhod <- ime rezultatnega videa
+    - izhod <- ime videa
     - fps <- frames per second
     - vzorec <- vzorec imena frame-ov
     """

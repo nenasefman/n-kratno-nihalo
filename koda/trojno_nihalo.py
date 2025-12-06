@@ -19,4 +19,4 @@ fps = 30
 
 narisi_sliko_3(resen, 1, 1, 1, radij, dt, shr_dir, fps, shrani=0)
 
-# shrani_v_video("./output/trojno_nihalo_frames", fps=30)
+shrani_v_video("./output/trojno_nihalo_frames", fps=30)

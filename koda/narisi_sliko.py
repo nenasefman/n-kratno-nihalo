@@ -196,7 +196,8 @@ def narisi_sliko_3(resen, l1, l2, l3, radij, dt, shr_dir, fps, shrani=0):
     # --- Priprava figure ---
     fig = plt.figure(figsize=(1920/120, 1080/120), dpi=120)
     ax = fig.add_subplot(111)
-
+    ax.set_aspect('equal')
+        
     frame_id = 0
 
     for t_i in range(0, resen.shape[0], k):
@@ -310,3 +311,86 @@ def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shran
         frame_id += 1
 
     plt.close()
+
+
+def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0):
+    """
+    Risanje (theta1, theta2) za n dvojnih nihal.
+    - resen_list : seznam n rešitev; 
+    - radij : radij "nihala" - točke v (theta1, theta2)
+    - dt : časovni korak
+    - shr_dir : ime direktorija za slike
+    - fps : slike na sekundo
+    - T_rep : dolžina repa (v sekundah)
+    - shrani : 0 = animacija, 1 = shranjevanje slik
+    """
+
+    k = int((1/fps)/dt)
+    N_rep = int(T_rep/dt)
+
+    # izračun globalnega maksimuma za barve
+    omega_max = max(
+        max(np.max(np.abs(res[:,1])), np.max(np.abs(res[:,3])))
+        for res in resen_list
+    )
+
+    if shrani == 1:
+        os.makedirs(shr_dir, exist_ok=True)
+        for f in glob.glob(os.path.join(shr_dir, "*.png")):
+            os.remove(f)
+
+    # figure
+    fig = plt.figure(figsize=(1920/120, 1080/120), dpi=120)
+    ax = fig.add_subplot(111)
+    ax.set_aspect("equal")
+    fig.patch.set_facecolor("black")
+
+    # izračun skupne dolžine animacije
+    N_frames = min(res.shape[0] for res in resen_list)
+
+    frame_id = 0
+
+    for t_i in range(0, N_frames, k):
+
+        # risanje vsakega nihala posebej
+        for res in resen_list:
+
+            theta1 = res[:,0]
+            omega1 = res[:,1]
+            theta2 = res[:,2]
+            omega2 = res[:,3]
+
+            # barva posameznega nihala
+            barva = barva_sistema(theta1[t_i], theta2[t_i],
+                                  omega1[t_i], omega2[t_i], omega_max)
+
+            # risanje repa
+            if t_i > N_rep:
+                t_start = t_i - N_rep
+                ax.plot(theta1[t_start:t_i], theta2[t_start:t_i],
+                        lw=1, alpha=0.5, c=barva)
+            else:
+                ax.plot(theta1[:t_i], theta2[:t_i],
+                        lw=1, alpha=0.5, c=barva)
+
+            # trenutna pozicija nihala v koordinatnem sistemu theta1, theta2
+            c = Circle((theta1[t_i], theta2[t_i]), radij,
+                       fc=barva, ec=barva, zorder=10)
+            ax.add_patch(c)
+
+        # meje osi
+        vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
+        vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
+
+        ax.set_xlim(np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
+        ax.set_ylim(np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
+        plt.axis("off")
+
+        if shrani == 1:
+            plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120)
+        else:
+            plt.pause(1/fps)
+
+        frame_id += 1
+        plt.cla()
+

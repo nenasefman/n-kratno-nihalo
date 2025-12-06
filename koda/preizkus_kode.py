@@ -1,7 +1,7 @@
 import numpy as np
 from funkcije import *
 from narisi_sliko import *
-from slike_za_animacijo import *
+# from slike_za_animacijo import * - ta se bo pol odkomentiral, ko ne bo več imel testnih primerov notri
 
 """
 PREIZKUS ZA DVOJNO NIHALO
@@ -36,7 +36,6 @@ PREIZKUS ZA 2x2 sistem
 - risanje slik
 """
 
-
 tmax, dt = 10, 0.01
 zac_pog_1 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
 zac_pog_2 = np.array([np.pi/2, 0, np.pi/2, 0])
@@ -58,7 +57,43 @@ radij = 0.1
 shr_dir = "./output/2x2_slikice"
 fps = 30
 
-slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shrani=0)
+# slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shrani=0)
 
+"""
+PREIZKUS ZA VEČ DVOJNIH NIHAL NA RAVNINI theta_1, theta_2
+- risanje slik
+"""
 
-# RAIČEVA IDEJA thet - koordinatni sistem theta_1, theta_2 (barva = kotnahitrost_1, sivina = kotna_hitrost2)
+n = 15      # koliko dvojnih nihal
+tmax, dt = 10, 0.01
+
+l_val = [1, 1]
+m_val = [1, 1]
+g_val = 9.81
+
+resen_sez = []
+zac_pogoji = [
+    [np.pi/2 + 0.1*i, 0, np.pi/2 + 0.1*i, 0] for i in range(n)
+]
+
+for z0 in zac_pogoji:
+    res = resen_sistem_n(
+        n = 2,
+        g_val = g_val,
+        m_val = m_val,
+        l_val = l_val,
+        tmax = tmax,
+        dt = dt,
+        zac_pog = z0
+    )
+    resen_sez.append(res)
+
+radij = 0.03
+shr_dir = "./output/theta_1-2_na_grafu_slikice"
+fps = 30
+
+T_rep = 1
+
+# narisi_sliko_s_thetami(resen_sez, radij, dt, shr_dir, fps, T_rep, shrani=0)
+
+# shrani_v_video("./output/theta_1-2_na_grafu_slikice", fps=30)
