@@ -33,7 +33,7 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv
             os.remove(f)
 
     # Figure 1920x1080
-    fig, axs = plt.subplots(a, b, figsize=(1920/120, 1080/120), dpi=120) #ustvari mrežo 2x2, axs je tabela 2x2 ax objektov
+    fig, axs = plt.subplots(a, b, figsize=(1920/120, 1080/120), dpi=120, facecolor='black') #ustvari mrežo 2x2, axs je tabela 2x2 ax objektov
     axs = axs.flatten()  # omogoča dostop do axs[0], axs[1] itd. (flatten naredi seznam)
 
     # Iz podatkov izračunamo max dolžino animacije
@@ -92,35 +92,51 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv
     plt.close()
 
 
+def generiraj_zacetne_pogoje_axb(a, b, theta1_range=(0, np.pi), theta2_range=(0, np.pi)):
+    """
+    Generira axb začetnih pogojev. Funkcija vrne seznam začetnih pogojev (vsak element je array
+    dolžine 4: [theta1, omega1, theta2, omega2])
 
-tmax, dt = 10, 0.01
-zac_pog_1 = np.array([np.pi/2, 0, np.pi/2 + 0.01, 0])    
-zac_pog_2 = np.array([np.pi/2, 0, np.pi/2 + 0.05, 0])    
-zac_pog_3 = np.array([np.pi/2, 0, np.pi/2 + 0.1, 0])    
-zac_pog_4 = np.array([np.pi/2, 0, np.pi/2 - 0.05, 0])  
-zac_pog_5 = np.array([np.pi/2, 0, np.pi/2 - 0.1, 0])    
-zac_pog_6 = np.array([np.pi/2, 0, np.pi/2 + 0.2, 0])    
+    a               <- število vrstic
+    b               <- število stolpcev
+    theta1_range    <- tuple (min, max) za prvi kot
+    theta2_range    <- tuple (min, max) za drugi kot
+    """
+    zacetni_pogoji = []
+
+    # linearen grid za kote
+    theta1_vals = np.linspace(theta1_range[0], theta1_range[1], a)
+    theta2_vals = np.linspace(theta2_range[0], theta2_range[1], b)
+
+    for t1 in theta1_vals:
+        for t2 in theta2_vals:
+            pogoj = np.zeros(4) # naredi array s 4 ničlami tipa float
+            pogoj[0] = t1
+            pogoj[2] = t2
+            zacetni_pogoji.append(pogoj)
+
+    return zacetni_pogoji
+
+
+
+
+tmax, dt = 10, 0.01   
 
 n = 2
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-a = 2
-b = 3
+a = 5
+b = 8
 
 reseni_sistemi = [
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_1),
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_2),
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_3),
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_4),
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_5),
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_6)
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
+    for zac_pog in generiraj_zacetne_pogoje_axb(a, b)
 ]
 
-shr_dir = "./output/2x3_slikice"
+shr_dir = "./output/5x8_slikice"
 fps = 30
 
-slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv = 0.5, shrani=0)
-
+slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv = 0.5, shrani=1)
 
 
