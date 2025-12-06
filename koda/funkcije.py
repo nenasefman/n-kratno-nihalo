@@ -408,4 +408,3 @@ def shrani_v_video(mapa_frameov,
 
     print(f"Video shranjen kot: {os.path.join(mapa_frameov, izhod)}")
 
-shrani_v_video("./output/dvojno_nihalo_frames", fps=30)
