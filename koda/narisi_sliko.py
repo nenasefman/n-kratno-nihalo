@@ -194,8 +194,10 @@ def narisi_sliko_3(resen, l1, l2, l3, radij, dt, shr_dir, fps, shrani=0):
             os.remove(f)
 
     # --- Priprava figure ---
-    fig = plt.figure(figsize=(8.3333, 6.25), dpi=72)
+    fig = plt.figure(figsize=(1920/120, 1080/120), dpi=120)
     ax = fig.add_subplot(111)
+
+    frame_id = 0
 
     for t_i in range(0, resen.shape[0], k):
         # narišem palčke od (0,0) do 1. in 2. kroglice
@@ -217,10 +219,11 @@ def narisi_sliko_3(resen, l1, l2, l3, radij, dt, shr_dir, fps, shrani=0):
         plt.axis("off")
 
         if shrani == 1:
-            plt.savefig(f'{shr_dir}/frame_{t_i:05d}.png', dpi=72) #dpi=dots per inch, ločljivost slike
+            plt.savefig(f'{shr_dir}/frame_{frame_id:05d}.png', dpi=120) #dpi=dots per inch, ločljivost slike
         else:
             plt.pause(1/fps)   # animira v živo
         
+        frame_id += 1
         plt.cla()
 
 

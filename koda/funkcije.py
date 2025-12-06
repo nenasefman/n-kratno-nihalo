@@ -232,7 +232,7 @@ def barva_kroglice(theta, omega, omega_max, min_svet):
 
 def shrani_v_video(mapa_frameov,
                    izhod="video.mp4",
-                   fps=60,
+                   fps=30,
                    vzorec="frame_%05d.png"):
     """
     Pretvori zaporedje frame-ov v video z uporabo FFmpeg.
