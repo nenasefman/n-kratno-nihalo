@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from funkcije import *
 
 
-def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv = 0, shrani=0):
+def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani=0):
     """
     Funkcija nariše sliko, na kateri so na na axb podslikah narisana dvojna nihala,
     vsako z malo drugačnima začetnim pogojem.
@@ -57,14 +57,12 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv
             y2 = -l_val[0] * np.cos(theta1) - l_val[1] * np.cos(theta2)
 
             # barve
-            b1 = barva_kroglice(theta1[frame_i], omega1[frame_i], omega_max, min_sv)
-            b2 = barva_kroglice(theta2[frame_i], omega2[frame_i], omega_max, min_sv)
+            barva = barva_sistema(theta1[frame_i], theta2[frame_i], omega1[frame_i], omega2[frame_i], omega_max)
 
             ax.clear()
 
             # palice
-            ax.plot([0, x1[frame_i]], [0, y1[frame_i]], lw=8, c=b1)
-            ax.plot([x1[frame_i], x2[frame_i]], [y1[frame_i], y2[frame_i]], lw=8, c=b2)
+            ax.plot([0, x1[frame_i], x2[frame_i]], [0, y1[frame_i], y2[frame_i] ], lw=8, c=barva)
 
             # meje
             lim = l_val[0] + l_val[1]
@@ -120,23 +118,23 @@ def generiraj_zacetne_pogoje_axb(a, b, theta1_range=(0, np.pi), theta2_range=(0,
 
 
 
-tmax, dt = 10, 0.01   
+tmax, dt = 20, 0.01   
 
 n = 2
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-a = 5
-b = 8
+c = 10
+d = 10
 
 reseni_sistemi = [
     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-    for zac_pog in generiraj_zacetne_pogoje_axb(a, b)
+    for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, -np.pi/4), theta2_range=(0, np.pi/2)) 
 ]
 
-shr_dir = "./output/5x8_slikice"
+shr_dir = "./output/10x10_slikice"
 fps = 30
 
-slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, min_sv = 0.5, shrani=1)
+slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
 
 

@@ -64,7 +64,7 @@ PREIZKUS ZA VEČ DVOJNIH NIHAL NA RAVNINI theta_1, theta_2
 - risanje slik
 """
 
-n = 15      # koliko dvojnih nihal
+n = 10      # koliko dvojnih nihal
 tmax, dt = 10, 0.01
 
 l_val = [1, 1]
@@ -94,6 +94,6 @@ fps = 30
 
 T_rep = 1
 
-# narisi_sliko_s_thetami(resen_sez, radij, dt, shr_dir, fps, T_rep, shrani=0)
+narisi_sliko_s_thetami(resen_sez, radij, dt, shr_dir, fps, T_rep, shrani=0)
 
 # shrani_v_video("./output/theta_1-2_na_grafu_slikice", fps=30)
