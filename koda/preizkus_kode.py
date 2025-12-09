@@ -158,8 +158,8 @@ f_dz = resen_sistem_n_simbolicno(n)
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-a = 10
-b = 15
+a = 50
+b = 60
 
 
 reseni_sistemi = [ 
@@ -167,9 +167,9 @@ reseni_sistemi = [
     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
 ]
 
-shr_dir = "./output/kvadratki_10x15"
+shr_dir = "./output/kvadratki_50x60"
 fps = 30
 
 animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/kvadratki_10x15", "kvadratki_10x15_barva_sistema_thet.mp4", fps=30)
+shrani_v_video("./output/kvadratki_50x60", "kvadratki_50x60_barva_original_povprecje.mp4", fps=30)
