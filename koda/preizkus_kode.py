@@ -148,28 +148,27 @@ d = 5
 
 """
 PREIZKUS ZA BARVANJE KVADRATKOV
-- risanje slik 10x10
 """
 
 tmax, dt = 15, 0.01
 
 n = 2
 f_dz = resen_sistem_n_simbolicno(n)
-lval = [1 for _ in range(n)]
-mval = [1 for _ in range(n)]
+l_val = [1 for _ in range(n)]
+m_val = [1 for _ in range(n)]
 g_val = 9.81
 a = 50
-b = 60
+b = round(a * 16/9)
 
 
 reseni_sistemi = [ 
     resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
-    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
+    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
 ]
 
-shr_dir = "./output/kvadratki_50x60"
+shr_dir = "./output/kvadratki_50x89"
 fps = 30
 
 animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/kvadratki_50x60", "kvadratki_50x60_barva_original_povprecje.mp4", fps=30)
+shrani_v_video("./output/kvadratki_50x89", "kvadratki_50x89_barva_sistema_bauer_m11.mp4", fps=30)
