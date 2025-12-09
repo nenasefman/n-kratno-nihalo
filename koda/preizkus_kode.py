@@ -2,6 +2,7 @@ import numpy as np
 from funkcije import *
 from narisi_sliko import *
 from slike_za_animacijo import * 
+from barve import *
 
 """
 PREIZKUS ZA DVOJNO NIHALO
@@ -30,6 +31,32 @@ fps = 30
 
 
 # shrani_v_video("./output/5x8_slikice", fps=30)
+
+
+
+"""
+RISANJE IN PREIZKUS FUNKCIJE ZA TROJNO NIHALO
+"""
+# tmax, dt = 10, 0.01
+# zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0, 3*np.pi/4, 0])
+# n = 3
+# l_val = [1, 1, 1]
+# m_val = [1 for _ in range(n)]
+# g_val = 9.81
+
+# f_dz = resen_sistem_n_simbolicno(n)
+# resen = resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog)
+
+# radij = 0.03
+# shr_dir = "./output/trojno_nihalo_frames"
+# fps = 30
+
+# narisi_sliko_3(resen, 1, 1, 1, radij, dt, shr_dir, fps, shrani=0)
+
+# shrani_v_video("./output/trojno_nihalo_frames", fps=30)
+
+
+
 
 """
 PREIZKUS ZA 2x2 sistem
@@ -150,14 +177,14 @@ d = 5
 PREIZKUS ZA BARVANJE KVADRATKOV
 """
 
-tmax, dt = 15, 0.01
+tmax, dt = 5, 0.01
 
 n = 2
 f_dz = resen_sistem_n_simbolicno(n)
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-a = 50
+a = 72
 b = round(a * 16/9)
 
 
@@ -166,9 +193,10 @@ reseni_sistemi = [
     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
 ]
 
-shr_dir = "./output/kvadratki_50x89"
+shr_dir = "./output/kvadratki_a72"
 fps = 30
 
 animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/kvadratki_50x89", "kvadratki_50x89_barva_sistema_bauer_m11.mp4", fps=30)
+shrani_v_video("./output/kvadratki_a72", "kvadratki_a72_barva_original_sestevek_ne_povprecje.mp4", fps=30)
+

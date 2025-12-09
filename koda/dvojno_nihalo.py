@@ -7,6 +7,15 @@ from matplotlib.patches import Circle
 
 from funkcije import narisi_sliko_2, resen_sistem_n
 
+
+
+"""
+Začetna datoteka, še preden sva vedeli kaj sploh delava.
+"""
+
+
+
+
 ## -- SIMBOLIČNO IZRAČUNAMO SISTEM DIFERENCIALNIH ENAČB --
 
 t = sp.Symbol('t', real=True)
