@@ -144,3 +144,30 @@ d = 5
 # slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
 
 # shrani_v_video("./output/5x5_slikice", fps=30)
+
+
+"""
+PREIZKUS ZA BARVANJE KVADRATKOV
+- risanje slik 10x10
+"""
+
+tmax, dt = 15, 0.01   
+
+n = 2
+l_val = [1 for _ in range(n)]
+m_val = [1 for _ in range(n)]
+g_val = 9.81
+a = 10
+b = 10
+
+reseni_sistemi = [
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
+    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi/3, np.pi/3), theta2_range=(-np.pi/2, np.pi/2)) 
+]
+
+shr_dir = "./output/kvadratki_10x10"
+fps = 30
+
+slike_za_animacijo_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=0)
+
+# shrani_v_video("./output/5x5_slikice", fps=30)

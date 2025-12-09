@@ -12,11 +12,10 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani
     reseni  <- seznam axb rešenih sistemov (za vsako podsliko eden)
     a       <- število vrstic
     b       <- število stolpcev
-    l       <- vektor dolžin vrvic 
+    l_val       <- vektor dolžin vrvic 
     radij   <- radij kroglic
     dt      <- korak s katerim numerično rešujemo diferencialne enačbe
     fps     <- slike na sekundo
-    min_sv  <- privzeta vrednost za svetlost barv
     shrani  <- 0 = prikaz v živo, 1 = shranjevanje frameov
     """
 
@@ -89,6 +88,78 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani
 
     plt.close()
 
+def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=0):
+    """
+    Funkcija nariše sliko, na kateri je grid axb kvadratkov, ki se pobarvajo z barvo, določeno 
+    z neko funkcijo za barvanje nihala.
+
+    reseni  <- seznam axb rešenih sistemov (za vsako podsliko eden)
+    a       <- število vrstic
+    b       <- število stolpcev
+    l_val       <- vektor dolžin vrvic 
+    radij   <- radij kroglic
+    dt      <- korak s katerim numerično rešujemo diferencialne enačbe
+    fps     <- slike na sekundo
+    shrani  <- 0 = prikaz v živo, 1 = shranjevanje frameov
+    """
+
+    assert len(reseni_sistemi) == a * b, "Podaj točno axb rešenih sistemov."
+
+    k = int((1/fps)/dt)
+
+    # Ustvari direktorij in shrani slike
+    if shrani==1:
+        os.makedirs(shr_dir, exist_ok=True)
+
+        files = glob.glob(os.path.join(shr_dir, "*.png"))
+        for f in files:
+            os.remove(f)
+
+    # Figure 1920x1080
+    fig, ax= plt.subplots(figsize=(1920/120, 1080/120), dpi=120)
+    ax.axis("off")
+
+    # a×b RGBA mreža
+    mreza = np.zeros((a, b, 4)) #prvotna mreža bo črna, ker so vse vrednosti 0
+
+    # imshow prikaže matriko mreža axbx4 (a vrstic, b stolpcev, 4 vrednosti za barvo RGBA)
+    # vmin, vmax sta min in max vrednosti moje barve
+    # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
+    img = ax.imshow(mreza, interpolation="nearest", vmin=0, vmax=1)
+
+    max_len = min([r.shape[0] for r in reseni_sistemi])
+    frame_id = 0
+
+    for frame_i in range(0, max_len, k):
+
+        for idx in range(a*b):
+
+            i = idx // b
+            j = idx %  b
+
+            res = reseni_sistemi[idx]
+
+            theta1 = res[frame_i, 0]
+            theta2 = res[frame_i, 2]
+            omega1 = res[frame_i, 1]
+            omega2 = res[frame_i, 3]
+
+            omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
+            barva = barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max)
+
+            mreza[i, j] = barva  
+
+        # posodobitev slike
+        img.set_data(mreza)
+
+        if shrani == 1:
+            plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120)
+        else:
+            plt.pause(1/fps)
+
+        frame_id += 1
+
+    plt.close()
 
 def generiraj_zacetne_pogoje_axb(a, b, theta1_range=(0, np.pi), theta2_range=(0, np.pi)):
     """
