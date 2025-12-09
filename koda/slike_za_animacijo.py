@@ -57,7 +57,7 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani
             y2 = -l_val[0] * np.cos(theta1) - l_val[1] * np.cos(theta2)
 
             # barve
-            barva = barva_original_povprecje(theta1[frame_i], theta2[frame_i], omega1[frame_i], omega2[frame_i], omega_max)
+            barva = barva_arctan(theta1[frame_i], theta2[frame_i], omega1[frame_i], omega2[frame_i], omega_max)
 
             ax.clear()
 
