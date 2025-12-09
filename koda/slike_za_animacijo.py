@@ -57,8 +57,7 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani
             y2 = -l_val[0] * np.cos(theta1) - l_val[1] * np.cos(theta2)
 
             # barve
-            barva = barva_iz_mathematice(theta1[frame_i], theta2[frame_i], 
-                                         omega1[frame_i], omega2[frame_i], omega_max)
+            barva = barva_original_povprecje(theta1[frame_i], theta2[frame_i], omega1[frame_i], omega2[frame_i], omega_max)
 
             ax.clear()
 
@@ -116,27 +115,3 @@ def generiraj_zacetne_pogoje_axb(a, b, theta1_range=(0, np.pi), theta2_range=(0,
 
     return zacetni_pogoji
 
-
-
-
-# tmax, dt = 20, 0.01   
-# 
-# n = 2
-# l_val = [1 for _ in range(n)]
-# m_val = [1 for _ in range(n)]
-# g_val = 9.81
-# c = 10
-# d = 10
-# 
-# reseni_sistemi = [
-#     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, -np.pi/4), theta2_range=(0, np.pi/2)) 
-# ]
-# 
-# shr_dir = "./output/10x10_slikice"
-# fps = 30
-# 
-# slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
-
-
-# shrani_v_video("./output/10x10_slikice", fps=30)
