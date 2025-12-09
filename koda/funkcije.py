@@ -246,7 +246,7 @@ def barva_sistema_thet(theta1, theta2, omega1, omega2, omega_max):
     - nasičenost pa je odvisna od obeh kotnih hitrosti in izračuna se kot normiran sqrt(omega1^2 + omega2^2)
     """
     # normalizacija povprečja kotov v [0,1]
-    h = ((0.8 * theta1 % (2*np.pi) + 0.2 * theta2 % (2*np.pi))) / (2*np.pi)
+    h = (0.8*theta1 + 0.2*theta2) / (2*np.pi)
     
     # Osnovna barva iz h
     osnovna_barva = cm.hsv(h)
@@ -284,21 +284,39 @@ def barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max):
     return (R, G, B, A)
 
 
-def barva_iz_mathematice(theta1, theta2):
-    # polar angle (Hue)
-    phi = np.arctan2(theta2, theta1)
-    h = (phi / (2*np.pi)) % 1.0
-
-    # radius
-    r = np.sqrt(theta1*theta1 + theta2*theta2)
-
-    # saturation = r / (1 + r)
-    s = r / (1.0 + r)
-
-    # HSV -> RGB, V = 1
-    R, G, B = colorsys.hsv_to_rgb(h, s, 1.0)
-
-    return (R, G, B, 1.0)
+def barva_iz_mathematice(theta1, theta2, omega1, omega2, omega_max):
+    """
+    Vrne RGBA barvo z zveznim barvanjem glede na theta1 in theta2.
+    Kota sta lahko poljubna (tudi > 2π ali < 0).
+    """
+    # Normaliziraj kota na interval (-π, π] za zveznost
+    def normaliziraj_zvezno(theta):
+        theta = theta % (2 * np.pi)  # Najprej v [0, 2π)
+        if theta > np.pi:
+            theta -= 2 * np.pi  # Nato v (-π, π]
+        return theta
+    
+    theta1_norm = normaliziraj_zvezno(theta1)
+    theta2_norm = normaliziraj_zvezno(theta2)
+    
+    # Linearna kombinacija normaliziranih kotov
+    # Preslikaj iz (-π, π] v [0, 1]
+    h = (0.8 * (theta1_norm + np.pi) + 0.2 * (theta2_norm + np.pi)) / (2 * np.pi)
+    h = h % 1.0  # Prepričaj se, da je v [0, 1]
+    
+    # Osnovna barva po HSV
+    osnovna_barva = cm.hsv(h)
+    R, G, B = osnovna_barva[:3]
+    
+    # Alfa glede na hitrost
+    if omega_max == 0:
+        nasicenost = 0.0
+    else:
+        nasicenost = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
+    
+    A = 0.2 + 0.8 * nasicenost
+    
+    return (R, G, B, A)
 
 
 def barva_kroglice(theta, omega, omega_max, min_svet):
@@ -352,7 +370,7 @@ def shrani_v_video(mapa_frameov,
     os.chdir(mapa_frameov)
 
     # FFmpeg ukaz
-    cmd = [
+    cmd1 = [
         "ffmpeg",
         "-y", 
         "-framerate", str(fps),
@@ -362,7 +380,21 @@ def shrani_v_video(mapa_frameov,
     ]
 
     # izvedi ukaz
-    subprocess.run(cmd)
+    subprocess.run(cmd1)
+
+    video_mapa = os.path.abspath(os.path.join(cwd, "video"))  #  absolutna pot
+    os.makedirs(video_mapa, exist_ok=True)
+    izhod2 = os.path.join(video_mapa, izhod)
+    
+    cmd2 = [
+        "ffmpeg",
+        "-y",
+        "-framerate", str(fps),
+        "-i", vzorec,
+        "-pix_fmt", "yuv420p",
+        izhod2
+    ]
+    subprocess.run(cmd2)
 
     # vrni se nazaj v prejšnjo mapo
     os.chdir(cwd)

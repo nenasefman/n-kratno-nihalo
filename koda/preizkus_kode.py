@@ -53,11 +53,13 @@ g_val = 9.81
 #     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_4)
 # ]
 
-radij = 0.1
-shr_dir = "./output/2x2_slikice"
-fps = 30
+# radij = 0.1
+# shr_dir = "./output/whatever"
+# fps = 30
 
-# slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shrani=0)
+# slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shrani=1)
+
+# shrani_v_video("./output/whatever", fps=30)
 
 """
 PREIZKUS ZA VEČ DVOJNIH NIHAL NA RAVNINI theta_1, theta_2
@@ -95,7 +97,7 @@ PREIZKUS ZA VEČ DVOJNIH NIHAL V GRIDU
 - risanje slik 10x10
 """
 
-tmax, dt = 15, 0.01   
+tmax, dt = 10, 0.01   
 
 n = 2
 l_val = [1 for _ in range(n)]
@@ -106,11 +108,11 @@ d = 5
 
 # reseni_sistemi = [
 #     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/4, np.pi/4), theta2_range=(-np.pi/2, np.pi/2)) 
+#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
 # ]
 
-# shr_dir = "./output/5x5_slikice"
-# fps = 30
+shr_dir = "./output/whatever2"
+fps = 30
 
 #slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
 
