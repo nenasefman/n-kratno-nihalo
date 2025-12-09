@@ -1,9 +1,7 @@
-import os, glob
+import os
 import numpy as np
 import sympy as sp
 from scipy.integrate import odeint
-import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
 import matplotlib.cm as cm
 import subprocess
 import colorsys
@@ -23,8 +21,11 @@ Da bo malo manj confusing - kaj je novega:
 - pa ta slike_za_animacijo_2x2 sem si prilepla samo zato k je več primerov hkrati in sm lažje vidla "nezveznost" barv
 """
 
-def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
-    ## -- SIMBOLIČNI IZRAČUN SISTEMA DE --
+def resen_sistem_n_simbolicno(n):
+    """
+    Simbolično nastavi sistem diferencialnih enačb.
+    """
+
     t = sp.Symbol('t', real=True)
 
     # simbole za mase, dolžine in gravitacijo
@@ -51,16 +52,14 @@ def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
     T = 0
     for i in range(n):
         T += (m[i]/2)*(dx[i]**2 + dy[i]**2)
-    T = sp.simplify(T)
 
     # potencialna energija
     V = 0
     for i in range(n):
         V += m[i]*g*y[i]
-    V = sp.simplify(V)
 
     # Lagrangeova funkcija
-    L = sp.simplify(T - V)
+    L = T - V
 
     # Euler-Lagrangeove enačbe
     eqs = []
@@ -69,7 +68,7 @@ def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
 
     for i in range(n):
         eq = sp.diff(sp.diff(L, dtheta[i]), t) - sp.diff(L, theta[i])
-        eqs.append(sp.simplify(eq))
+        eqs.append(eq)
 
     # rešitev sistema
     sol = sp.solve(eqs, ddtheta, simplify=True, rational=False)
@@ -82,20 +81,25 @@ def resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog):
     # zamenjave simboličnih funkcij s simboli
     th = sp.symbols(f"th1:{n+1}")   # ustvari simbole od th1 do th(n).
     z = sp.symbols(f"z1:{n+1}")
-
-    zamenjave_sl = {}
-    for i in range(n):
-        zamenjave_sl[theta[i]] = th[i]
-        zamenjave_sl[sp.Derivative(theta[i], t)] = z[i]
+    zamenjave_sl = {theta[i]: th[i] for i in range(n)}
+    zamenjave_sl.update({sp.Derivative(theta[i], t): z[i] for i in range(n)})
 
     # naredimo zamenjavo v dobljenih izrazih za dz_i
-    dz = [sp.simplify(dzi.subs(zamenjave_sl)) for dzi in dz_o]
+    dz = [dzi.subs(zamenjave_sl) for dzi in dz_o]
 
     # lambdify funkcije
     f_dz = []
+    args = list(th) + list(z) + list(l) + list(m) + [g]
     for i in range(n):
-        args = list(th) + list(z) + list(l) + list(m) + [g]
         f_dz.append(sp.lambdify(args, dz[i], "numpy"))
+
+    return f_dz
+
+
+def resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog):
+    """
+    Numerično izračuna sistem diferencialnih enačb.
+    """
 
     def sistem_num(y, t, l_val, m_val, g_val):
         n = len(y)//2

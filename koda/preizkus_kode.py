@@ -111,8 +111,8 @@ d = 5
 #     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
 # ]
 
-shr_dir = "./output/whatever2"
-fps = 30
+# shr_dir = "./output/whatever2"
+# fps = 30
 
 #slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
 
@@ -168,6 +168,6 @@ reseni_sistemi = [
 shr_dir = "./output/kvadratki_10x10"
 fps = 30
 
-slike_za_animacijo_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=0)
+animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-# shrani_v_video("./output/5x5_slikice", fps=30)
+shrani_v_video("./output/kvadratki_10x10", "kvadratki_10x10.mp4", fps=30)
