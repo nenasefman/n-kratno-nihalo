@@ -106,17 +106,17 @@ g_val = 9.81
 c = 5
 d = 5
 
-reseni_sistemi = [
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-    for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
-]
+# reseni_sistemi = [
+#     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
+#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
+# ]
 
-# shr_dir = "./output/whatever2"
-# fps = 30
+# # shr_dir = "./output/whatever2"
+# # fps = 30
 
-slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
+# slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/whatever2", "whatever2.mp4", fps=30)
+# shrani_v_video("./output/whatever2", "whatever2.mp4", fps=30)
 
 
 """
@@ -154,20 +154,22 @@ PREIZKUS ZA BARVANJE KVADRATKOV
 tmax, dt = 15, 0.01   
 
 n = 2
+f_dz = resen_sistem_n_simbolicno(n)
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
 a = 10
-b = 10
+b = 15
 
-reseni_sistemi = [
-    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi/3, np.pi/3), theta2_range=(-np.pi/2, np.pi/2)) 
+
+reseni_sistemi = [ 
+    resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
+    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
 ]
 
-shr_dir = "./output/kvadratki_10x10"
+shr_dir = "./output/kvadratki_10x15"
 fps = 30
 
 animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/kvadratki_10x10", "kvadratki_10x10.mp4", fps=30)
+shrani_v_video("./output/kvadratki_10x15", "kvadratki_10x15_barva_sistema_thet.mp4", fps=30)

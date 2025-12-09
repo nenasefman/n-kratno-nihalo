@@ -145,7 +145,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
             omega2 = res[frame_i, 3]
 
             omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
-            barva = barva_iz_mathematice(theta1, theta2, omega1, omega2, omega_max)
+            barva = barva_sistema_thet(theta1, theta2, omega1, omega2, omega_max)
 
             mreza[i, j] = barva  
 
