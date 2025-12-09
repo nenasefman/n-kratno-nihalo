@@ -174,15 +174,28 @@ def preveri_energijo_sistema(resen, g_val, m_val, l_val, tol=0.001):
     return max_razlika <= tol
 
 
-def barva_sistema(theta1, theta2, omega1, omega2, omega_max):
+def barva_sistema(theta1, theta2, l_val, omega1, omega2, omega_max):
     """
     Vrne RGBA barvo za sistem - poenotena barva obeh kroglic in obeh  palčk
     - barva (odtenek) je določena s povprečjem obeh kotov theta1 in theta2
     - svetlost = 1 (da ni "sivin")
     - nasičenost pa je odvisna od obeh kotnih hitrosti in izračuna se kot normiran sqrt(omega1^2 + omega2^2)
     """
+    a = 1
+    b = 1
+
+    x1 = a * l_val[0] * np.sin(theta1)
+    y1 = a * (-l_val[0]) * np.cos(theta1)
+    x2 = a * l_val[0] * np.sin(theta1) + b * l_val[1] * np.sin(theta2)
+    y2 = - a * l_val[0] * np.cos(theta1) - b * l_val[1] * np.cos(theta2)
+
+    v1 = np.array([x1, y1])
+    v2 = np.array([x2, y2])
+    skal_prod = np.dot(v1, v2) / (np.sqrt(np.dot(v1, v1)) * np.sqrt(np.dot(v2, v2)))
+    theta = np.arccos(skal_prod) + theta1
+
     # normalizacija povprečja kotov v [0,1]
-    h = (((theta1 + theta2)/2 ) % (2*np.pi)) / (2*np.pi)
+    h = (theta % (2*np.pi)) / (2 * np.pi)
     
     # Osnovna barva iz h
     osnovna_barva = cm.hsv(h)
@@ -191,6 +204,31 @@ def barva_sistema(theta1, theta2, omega1, omega2, omega_max):
     nasicenost = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
 
     sivine = 1 # ni sivin :)
+
+    R = osnovna_barva[0] * sivine
+    G = osnovna_barva[1] * sivine
+    B = osnovna_barva[2] * sivine
+    A = 0.2 + 0.8 * nasicenost  #nasičenost
+
+    return (R, G, B, A)
+
+def barva_sistema_bauer(theta1, theta2):
+    
+    theta1 = theta1 % (2*np.pi)
+    theta2 = theta2 % (2*np.pi)
+    r = np.sqrt(theta1 ** 2 + theta2 ** 2)
+    theta = np.arctan2(theta1, theta2)
+
+    # normalizacija povprečja kotov v [0,1]
+    h = theta / (2 * np.pi)
+    
+    # Osnovna barva iz h
+    osnovna_barva = cm.hsv(h)
+
+    # nasicenost kot kvadratni koren vsote kvadratov kotnih hitrosti
+    nasicenost = r / (1 + r)
+
+    sivine = 1
 
     R = osnovna_barva[0] * sivine
     G = osnovna_barva[1] * sivine
