@@ -361,20 +361,19 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
             omega2 = res[:,3]
 
             # barva posameznega nihala
-            barva = barva_sistema(theta1[t_i], theta2[t_i],
-                                  omega1[t_i], omega2[t_i], omega_max)
+            barva = barva_iz_mathematice(theta1[t_i], theta2[t_i])
 
             # risanje repa
             if t_i > N_rep:
                 t_start = t_i - N_rep
-                ax.plot(theta1[t_start:t_i], theta2[t_start:t_i],
+                ax.plot(theta2[t_start:t_i], theta1[t_start:t_i],
                         lw=1, alpha=0.5, c=barva)
             else:
-                ax.plot(theta1[:t_i], theta2[:t_i],
+                ax.plot(theta2[:t_i], theta1[:t_i],
                         lw=1, alpha=0.5, c=barva)
 
             # trenutna pozicija nihala v koordinatnem sistemu theta1, theta2
-            c = Circle((theta1[t_i], theta2[t_i]), radij,
+            c = Circle((theta2[t_i], theta1[t_i]), radij,
                        fc=barva, ec=barva, zorder=10)
             ax.add_patch(c)
 
@@ -382,8 +381,8 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
         vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
         vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
 
-        ax.set_xlim(np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
-        ax.set_ylim(np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
+        ax.set_ylim(np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
+        ax.set_xlim(np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
         plt.axis("off")
 
         if shrani == 1:

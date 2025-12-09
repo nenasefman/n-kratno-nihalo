@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 import matplotlib.cm as cm
 import subprocess
-import os
+import colorsys
 
 # NENA!
 """
@@ -198,6 +198,49 @@ def barva_sistema(theta1, theta2, omega1, omega2, omega_max):
     A = 0.2 + 0.8 * nasicenost  #nasičenost
 
     return (R, G, B, A)
+
+
+def barva_sistema_thet(theta1, theta2, omega1, omega2, omega_max):
+    """
+    Vrne RGBA barvo za sistem - poenotena barva obeh kroglic in obeh  palčk
+    - barva (odtenek) je določena s povprečjem obeh kotov theta1 in theta2
+    - svetlost = 1 (da ni "sivin")
+    - nasičenost pa je odvisna od obeh kotnih hitrosti in izračuna se kot normiran sqrt(omega1^2 + omega2^2)
+    """
+    # normalizacija povprečja kotov v [0,1]
+    h = ((0.8 * theta1 % (2*np.pi) + 0.2 * theta2 % (2*np.pi))) / (2*np.pi)
+    
+    # Osnovna barva iz h
+    osnovna_barva = cm.hsv(h)
+
+    # nasicenost kot kvadratni koren vsote kvadratov kotnih hitrosti
+    nasicenost = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
+
+    sivine = 1 # ni sivin :)
+
+    R = osnovna_barva[0] * sivine
+    G = osnovna_barva[1] * sivine
+    B = osnovna_barva[2] * sivine
+    A = 0.2 + 0.8 * nasicenost  #nasičenost
+
+    return (R, G, B, A)
+
+
+def barva_iz_mathematice(theta1, theta2):
+    # polar angle (Hue)
+    phi = np.arctan2(theta2, theta1)
+    h = (phi / (2*np.pi)) % 1.0
+
+    # radius
+    r = np.sqrt(theta1*theta1 + theta2*theta2)
+
+    # saturation = r / (1 + r)
+    s = r / (1.0 + r)
+
+    # HSV -> RGB, V = 1
+    R, G, B = colorsys.hsv_to_rgb(h, s, 1.0)
+
+    return (R, G, B, 1.0)
 
 
 def barva_kroglice(theta, omega, omega_max, min_svet):
