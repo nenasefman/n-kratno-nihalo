@@ -116,8 +116,9 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
             os.remove(f)
 
     # Figure 1920x1080
-    fig, ax= plt.subplots(figsize=(1920/120, 1080/120), dpi=120)
+    fig, ax= plt.subplots(figsize=(1920/120, 1080/120), dpi=120, facecolor='black')
     ax.axis("off")
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0) #plot raztegnem čez (skoraj) celotno platno
 
     # a×b RGBA mreža
     mreza = np.zeros((a, b, 4)) #prvotna mreža bo črna, ker so vse vrednosti 0
@@ -125,7 +126,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # imshow prikaže matriko mreža axbx4 (a vrstic, b stolpcev, 4 vrednosti za barvo RGBA)
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
-    img = ax.imshow(mreza, interpolation="nearest", vmin=0, vmax=1)
+    img = ax.imshow(mreza, interpolation="bilinear", vmin=0, vmax=1, aspect='auto')
 
     max_len = min([r.shape[0] for r in reseni_sistemi])
     frame_id = 0
@@ -144,8 +145,8 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
             omega1 = res[frame_i, 1]
             omega2 = res[frame_i, 3]
 
-            omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
-            barva = barva_arctan(theta1, theta2, omega1, omega2, omega_max)
+            # omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
+            barva = barva_sistema_bauer(theta1, theta2)
 
             mreza[i, j] = barva  
 
@@ -153,7 +154,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
         img.set_data(mreza)
 
         if shrani == 1:
-            plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120)
+            plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120, bbox_inches='tight', pad_inches=0)
         else:
             plt.pause(1/fps)
 
