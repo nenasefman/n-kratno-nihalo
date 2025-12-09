@@ -281,7 +281,7 @@ def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shran
             y2 = -l1 * np.cos(theta1) - l2 * np.cos(theta2)
 
             # barve
-            b = barva_sistema(theta1[frame_i], theta2[frame_i], omega1[frame_i], omega2[frame_i], omega_max)
+            b = barva_sistema_thet(theta1[frame_i], theta2[frame_i], omega1[frame_i], omega2[frame_i], omega_max)
 
             ax.clear()
 
