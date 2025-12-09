@@ -270,7 +270,7 @@ def barva_sistema_thet(theta1, theta2, omega1, omega2, omega_max):
 def barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max):
 
     # normalizacija povprečja kotov v [0,1]
-    h = (((theta1 % (2*np.pi)) + (theta2 % (2*np.pi)))/2 ) / (2*np.pi)
+    h = (((theta1 + theta2) % 2 * np.pi)/2 ) / (2*np.pi)
 
     # Osnovna barva iz h
     osnovna_barva = cm.hsv(h)
