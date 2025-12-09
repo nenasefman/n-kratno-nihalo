@@ -106,17 +106,17 @@ g_val = 9.81
 c = 5
 d = 5
 
-# reseni_sistemi = [
-#     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
-# ]
+reseni_sistemi = [
+    resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
+    for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
+]
 
 # shr_dir = "./output/whatever2"
 # fps = 30
 
-#slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
+slike_za_animacijo_axb(reseni_sistemi, c, d, l_val, dt, shr_dir, fps, shrani=1)
 
-#shrani_v_video("./output/5x5_slikice", fps=30)
+shrani_v_video("./output/whatever2", "whatever2.mp4", fps=30)
 
 
 """

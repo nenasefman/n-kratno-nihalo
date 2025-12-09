@@ -361,7 +361,7 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
             omega2 = res[:,3]
 
             # barva posameznega nihala
-            barva = barva_iz_mathematice(theta1[t_i], theta2[t_i])
+            barva = barva_sistema_thet(theta1[t_i], theta2[t_i], omega1[t_i], omega2[t_i], omega_max)
 
             # risanje repa
             if t_i > N_rep:

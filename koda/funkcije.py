@@ -288,38 +288,39 @@ def barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max):
     return (R, G, B, A)
 
 
-def barva_iz_mathematice(theta1, theta2, omega1, omega2, omega_max):
+# ...existing code...
+def barva_arctan(theta1, theta2, omega1, omega2, omega_max, w1=0.8, w2=0.2):
     """
-    Vrne RGBA barvo z zveznim barvanjem glede na theta1 in theta2.
-    Kota sta lahko poljubna (tudi > 2π ali < 0).
+    Preslikava (theta1, theta2) -> hue z uporabo arctan2:
+    - normalizira kote v (-pi, pi]
+    - naredi utežen vsoto vektorjev (cos,sin)
+    - angle = atan2(y, x) in preslika v [0,1] za hue
+    - alfa glede na hitrost (isto kot drugod)
     """
-    # Normaliziraj kota na interval (-π, π] za zveznost
-    def normaliziraj_zvezno(theta):
-        theta = theta % (2 * np.pi)  # Najprej v [0, 2π)
-        if theta > np.pi:
-            theta -= 2 * np.pi  # Nato v (-π, π]
-        return theta
-    
-    theta1_norm = normaliziraj_zvezno(theta1)
-    theta2_norm = normaliziraj_zvezno(theta2)
-    
-    # Linearna kombinacija normaliziranih kotov
-    # Preslikaj iz (-π, π] v [0, 1]
-    h = (0.8 * (theta1_norm + np.pi) + 0.2 * (theta2_norm + np.pi)) / (2 * np.pi)
-    h = h % 1.0  # Prepričaj se, da je v [0, 1]
-    
-    # Osnovna barva po HSV
-    osnovna_barva = cm.hsv(h)
-    R, G, B = osnovna_barva[:3]
-    
-    # Alfa glede na hitrost
+    def norm(theta):
+        t = (theta + np.pi) % (2*np.pi)
+        if t > np.pi:
+            t -= 2*np.pi
+        return t
+
+    t1 = norm(theta1)
+    t2 = norm(theta2)
+
+    x = w1 * np.cos(t1) + w2 * np.cos(t2)
+    y = w1 * np.sin(t1) + w2 * np.sin(t2)
+
+    angle = np.arctan2(y, x)            # v (-pi, pi]
+    h = (angle + np.pi) / (2 * np.pi)  # v [0,1)
+
+    osnovna = cm.hsv(h % 1.0)
+    R, G, B = osnovna[:3]
+
     if omega_max == 0:
-        nasicenost = 0.0
+        nas = 0.0
     else:
-        nasicenost = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
-    
-    A = 0.2 + 0.8 * nasicenost
-    
+        nas = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
+
+    A = 0.2 + 0.8 * nas
     return (R, G, B, A)
 
 
@@ -389,7 +390,7 @@ def shrani_v_video(mapa_frameov,
     video_mapa = os.path.abspath(os.path.join(cwd, "video"))  #  absolutna pot
     os.makedirs(video_mapa, exist_ok=True)
     izhod2 = os.path.join(video_mapa, izhod)
-    
+
     cmd2 = [
         "ffmpeg",
         "-y",
