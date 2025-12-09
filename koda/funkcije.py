@@ -288,13 +288,13 @@ def barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max):
     return (R, G, B, A)
 
 
-# ...existing code...
 def barva_arctan(theta1, theta2, omega1, omega2, omega_max, w1=0.8, w2=0.2):
     """
     Preslikava (theta1, theta2) -> hue z uporabo arctan2:
     - normalizira kote v (-pi, pi]
-    - naredi utežen vsoto vektorjev (cos,sin)
-    - angle = atan2(y, x) in preslika v [0,1] za hue
+    - naredi uteženo vsoto vektorjev (cos,sin)
+    - angle = atan2(y, x) in preslika v [0,1) za hue
+      (mapiranje izbere angle=0 -> h=0 (rdeča))
     - alfa glede na hitrost (isto kot drugod)
     """
     def norm(theta):
@@ -309,10 +309,17 @@ def barva_arctan(theta1, theta2, omega1, omega2, omega_max, w1=0.8, w2=0.2):
     x = w1 * np.cos(t1) + w2 * np.cos(t2)
     y = w1 * np.sin(t1) + w2 * np.sin(t2)
 
-    angle = np.arctan2(y, x)            # v (-pi, pi]
-    h = (angle + np.pi) / (2 * np.pi)  # v [0,1)
+    r = np.hypot(x, y)
+    # če sta x,y zelo majhna (cancel), uporabimo povprečen kot kot fallback
+    if np.all(r == 0) or (np.isscalar(r) and r == 0) or (not np.isscalar(r) and np.any(r < 1e-12)):
+        angle = (t1 + t2) / 2.0
+    else:
+        angle = np.arctan2(y, x)            # v (-pi, pi]
 
-    osnovna = cm.hsv(h % 1.0)
+    # Preslika tako, da angle=0 -> h=0 (rdeča), z zveznim prehodom
+    h = (angle / (2 * np.pi)) % 1.0
+
+    osnovna = cm.hsv(h)
     R, G, B = osnovna[:3]
 
     if omega_max == 0:
