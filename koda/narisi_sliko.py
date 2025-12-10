@@ -274,6 +274,17 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
 
     frame_id = 0
 
+    # meje osi
+    vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
+    vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
+
+    ylim = (np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
+    xlim = (np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
+    ax.set_ylim(ylim)
+    ax.set_xlim(xlim)
+
+    fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+
     for t_i in range(0, N_frames, k):
 
         # risanje vsakega nihala posebej
@@ -301,12 +312,11 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
                        fc=barva, ec=barva, zorder=10)
             ax.add_patch(c)
 
-        # meje osi
-        vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
-        vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
+        
 
-        ax.set_ylim(np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
-        ax.set_xlim(np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
+        ax.set_ylim(ylim)
+        ax.set_xlim(xlim)
+
         plt.axis("off")
 
         if shrani == 1:
@@ -315,5 +325,4 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
             plt.pause(1/fps)
 
         frame_id += 1
-        plt.cla()
-
+        ax.clear()
