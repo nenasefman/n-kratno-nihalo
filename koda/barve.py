@@ -33,6 +33,35 @@ def barva_sistema_bauer(theta1, theta2):
     return (R, G, B, A)
 
 
+def barva_kineticna_energija(omega1, omega2):
+    masa = 1
+    E_kin = 0.5 * masa * (omega1**2 + omega2**2)
+
+    A = 1
+    if 0 <= E_kin <= 5:
+        return (0.0,   0.0,   0.0, A)  # črna
+    elif 5 < E_kin <= 10:
+        return (0.5, 0.0,   0.5, A)  # vijolična
+    elif 10 < E_kin <= 15:
+        return (0.0,   0.0,   0.545, A)  # temno modra
+    elif 15 < E_kin <= 20:
+        return (0.678, 0.847, 0.902, A)  # svetlo modra
+    elif 20 < E_kin <= 25:
+        return (0.0,   0.5,   0.0, A)  # zelena
+    elif 25 < E_kin <= 30:
+        return (1.0,   1.0,   0.0, A)  # rumena
+    elif 30 < E_kin <= 35:
+        return (1.0,   0.647, 0.0, A)  # oranžna
+    elif 35 < E_kin <= 40:
+        return (1.0,   0.0,   0.0, A)  # rdeča
+    elif 40 < E_kin <= 45:
+        return (1.0,   0.753, 0.796, A)  # roza
+    else:
+        return (1.0,   1.0,   1.0, A)  # bela
+
+
+
+
 def barva_sistema_thet(theta1, theta2, omega1, omega2, omega_max):
     """
     Vrne RGBA barvo za sistem - poenotena barva obeh kroglic in obeh  palčk
