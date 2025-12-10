@@ -194,6 +194,20 @@ def barva_sistema(theta1, theta2, l_val, omega1, omega2, omega_max):
     return (R, G, B, A)
 
 
+def barva_crno_belo(theta1, theta2):
+
+    value = ((theta1 + theta2) % (2 * np.pi)) / (2*np.pi)
+
+    # Grayscale barve
+    R = 1 - value
+    G = 1 - value
+    B = 1 - value
+
+    A = 1
+
+    return (R, G, B, A)
+
+
 def barva_kroglice(theta, omega, omega_max, min_svet):
     """
     Vrne RGBA barvo za kroglico:
