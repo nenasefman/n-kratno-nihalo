@@ -177,7 +177,7 @@ d = 5
 PREIZKUS ZA BARVANJE KVADRATKOV
 """
 
-tmax, dt = 5, 0.01
+tmax, dt = 10, 0.01
 
 n = 2
 f_dz = resen_sistem_n_simbolicno(n)
@@ -198,5 +198,5 @@ fps = 30
 
 animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/kvadratki_a72", "kvadratki_a72_barva_original_sestevek_ne_povprecje.mp4", fps=30)
+shrani_v_video("./output/kvadratki_a72", "kvadratki_a72_barva_crno_belo.mp4", fps=30)
 

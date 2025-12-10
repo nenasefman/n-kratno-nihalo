@@ -178,6 +178,7 @@ def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani
 
     plt.close()
 
+
 def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=0):
     """
     Funkcija nariše sliko, na kateri je grid axb kvadratkov, ki se pobarvajo z barvo, določeno 
@@ -216,7 +217,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # imshow prikaže matriko mreža axbx4 (a vrstic, b stolpcev, 4 vrednosti za barvo RGBA)
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
-    img = ax.imshow(mreza, interpolation="bicubic", vmin=0, vmax=1, aspect='auto')
+    img = ax.imshow(mreza, interpolation="nearest", vmin=0, vmax=1, aspect='auto')
 
     max_len = min([r.shape[0] for r in reseni_sistemi])
     frame_id = 0
@@ -235,8 +236,8 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
             omega1 = res[frame_i, 1]
             omega2 = res[frame_i, 3]
 
-            omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
-            barva = barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max)
+            # omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
+            barva = barva_crno_belo(theta1, theta2)
 
             mreza[i, j] = barva  
 
