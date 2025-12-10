@@ -278,8 +278,8 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
     vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
     vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
 
-    ylim = (np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
-    xlim = (np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
+    ylim = (np.min(vse_theta1), np.max(vse_theta1))
+    xlim = (np.min(vse_theta2), np.max(vse_theta2))
     ax.set_ylim(ylim)
     ax.set_xlim(xlim)
 
