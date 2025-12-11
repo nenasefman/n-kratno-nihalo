@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from funkcije import *
 from barve import *
+from matplotlib.patches import Circle
 
 """
 Risanje slik za animacijo: mreža axb nihal (dela do približno a=b=10), barvanje kvadratkov v 
