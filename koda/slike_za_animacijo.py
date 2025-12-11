@@ -10,7 +10,7 @@ Risanje slik za animacijo: mreža axb nihal (dela do približno a=b=10), barvanj
 mreži (precej hitreje) -> vizualizacija faznega prostora.
 """
 
-def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shrani=0):
+def mreza_nihal_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shrani=0):
     """
     Funkcija nariše sliko, na kateri so na na štirih podslikah narisana dvojna nihala,
     vsako z malo drugačnima začetnim pogojem.
@@ -95,7 +95,7 @@ def slike_za_animacijo_2x2(reseni_sistemi, l_val, radij, dt, shr_dir, fps, shran
     plt.close()
 
 
-def slike_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani=0):
+def mreza_nihal_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, shrani=0):
     """
     Funkcija nariše sliko, na kateri so na na axb podslikah narisana dvojna nihala,
     vsako z malo drugačnima začetnim pogojem.
@@ -204,6 +204,13 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
         files = glob.glob(os.path.join(shr_dir, "*.png"))
         for f in files:
             os.remove(f)
+    
+    # 2D array spremenim v 4D strukturo, ki jo lahko uporabim za mrežo slik
+    reseni_sistemi = reseni_sistemi.reshape((a, b, reseni_sistemi.shape[1], 4))
+
+    # Barve celega sistema izračunam PRED for zanko (da bo hitreje)
+    mreza = barva_arctan_hitro(reseni_sistemi)
+
 
     # Figure 1920x1080
     fig, ax= plt.subplots(figsize=(1920/120, 1080/120), dpi=120, facecolor='black')
@@ -211,43 +218,52 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0) #plot raztegnem čez (skoraj) celotno platno
 
     # a×b RGBA mreža
-    mreza = np.zeros((a, b, 4)) #prvotna mreža bo črna, ker so vse vrednosti 0
+    # mreza = np.zeros((a, b, 4)) #prvotna mreža bo črna, ker so vse vrednosti 0
 
     # imshow prikaže matriko mreža axbx4 (a vrstic, b stolpcev, 4 vrednosti za barvo RGBA)
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
     img = ax.imshow(mreza, interpolation="nearest", vmin=0, vmax=1, aspect='auto')
 
-    max_len = min([r.shape[0] for r in reseni_sistemi])
+    # max_len = min([r.shape[0] for r in reseni_sistemi])
     frame_id = 0
 
-    for frame_i in range(max_len):
+    # for frame_i in range(max_len):
 
-        for idx in range(a*b):
+    #     for idx in range(a*b):
 
-            i = idx // b
-            j = idx %  b
+    #         i = idx // b
+    #         j = idx %  b
 
-            res = reseni_sistemi[idx]
+    #         res = reseni_sistemi[idx]
 
-            theta1 = res[frame_i, 0]
-            theta2 = res[frame_i, 2]
-            omega1 = res[frame_i, 1]
-            omega2 = res[frame_i, 3]
+    #         theta1 = res[frame_i, 0]
+    #         theta2 = res[frame_i, 2]
+    #         omega1 = res[frame_i, 1]
+    #         omega2 = res[frame_i, 3]
 
-            omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
-            barva = barva_arctan(theta1, theta2, omega1, omega2, omega_max)
+    #         omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
+    #         barva = barva_original_povprecje(theta1, theta2, omega1, omega2, omega_max)
 
-            mreza[i, j] = barva  
+    #         mreza[i, j] = barva  
 
-        # posodobitev slike
-        img.set_data(mreza)
+    #     # posodobitev slike
+    #     img.set_data(mreza)
 
+    #     if shrani == 1:
+    #         plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120, bbox_inches='tight', pad_inches=0)
+    #     else:
+    #         plt.pause(1/fps)
+
+    #     frame_id += 1
+
+
+    for frame_i in range(mreza.shape[2]):
+        img.set_data(mreza[:,:,frame_i,:])
         if shrani == 1:
             plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120, bbox_inches='tight', pad_inches=0)
         else:
             plt.pause(1/fps)
-
         frame_id += 1
 
     plt.close()
