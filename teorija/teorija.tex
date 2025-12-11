@@ -4,6 +4,8 @@
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{hyperref}
+\usepackage{subcaption}
+
 
 \usepackage{biblatex}
 \addbibresource{literatura.bib}
@@ -16,11 +18,18 @@
 
 \geometry{margin=2.5cm}
 
+\title{Animacija dvojnega nihala}
+\author{
+UNIVERZA V LJUBLJANI, UL FMF\\
+FINANČNA MATEMATIKA - 2. STOPNJA\\[1em]
+Nena Šefman Hodnik, Nina Švigelj\\[1em]
+Mentor: prof. dr. Andrej Bauer
+}
+\date{}
+
+
 \begin{document}
 
-\title{Animacija dvojnega nihala}
-\author{Nena Šefman Hodnik, Nina Švigelj}
-\date{}
 \maketitle
 
 
@@ -34,7 +43,7 @@ Oglejmo si primer na sliki:
     \centering
     \includegraphics[width=0.3\textwidth]{primer_dveh_slika.png}
     \caption{Dvojno nihalo \cite{scipython:doublependulum}}
-    \label{fig:dvojno_nihalo}
+    \label{fig:dvojno_vir}
 \end{figure}
 
 Imamo dve žogici z masama $m_1$ in $m_2$ na palčkah dolžine $l_1$ in $l_2$ z zanemarljivo maso.
@@ -151,7 +160,7 @@ Podobno kot za dvojno nihalo tudi tu dobimo sistem enačb za $\theta_i$, $i=1,2,
 % \end{align*}
 
 \section{Postopek animacije}
-Za sistem dvojnega nihala sva v pythonu napisali funkcijo \texttt{resen\_sistem\_n}, ki glede na
+Za sistem dvojnega nihala sva v programskem jeziku \texttt{python} napisali funkcijo \\ \texttt{resen\_sistem\_n\_simbolicno}, ki simbolično zapiše sistem enačb v odvisnosti od števila $n$ - torej števila nihal. Potem z uporabo funkcije \texttt{resen\_sistem\_n\_numericno} glede na
 \begin{itemize}
     \item izbrane mase $m_1, m_2, \ldots, m_n$
     \item dolžine vrvic $l_1, l_2,\ldots, l_n$
@@ -160,10 +169,74 @@ Za sistem dvojnega nihala sva v pythonu napisali funkcijo \texttt{resen\_sistem\
     \item $tmax\ \ldots$ časovna dolžina videa
 \end{itemize}
 
-za vsak $t = k\cdot dt, \ k = 0,1,\ldots, \frac{tmax}{dt}$ reši sistem diferencialnih enačb in vrne matriko z elementi $[\theta_1, \dot{\theta_1}, \theta_2, \dot{\theta_2}, \ldots, \theta_n, \dot{\theta_n}]$.
+za vsak $t = k\cdot dt, \ k = 0,1,\ldots, \frac{tmax}{dt}$ rešimo sistem diferencialnih enačb in dobimo matriko z elementi $[\theta_1, \dot{\theta_1}, \theta_2, \dot{\theta_2}, \ldots, \theta_n, \dot{\theta_n}]$.
+
+S pomočjo dobljenih vrednosti nato izračunamo koordinate vsake žogice v vsakem časovnem trenutku in jih narišemo z uporabo funkcije \texttt{narisi\_sliko\_2} za risanje preprostega dvojnega nihala. Podobno sva naredili tudi za trojno nihalo s funkcijo \texttt{narisi\_sliko\_3}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim=15cm 1cm 10cm 10cm, clip]{primer_narisan_dvojno.png}
+        \caption{Primer slike dvojnega nihala.}
+        \label{fig:primer_dvojno}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim=17cm 1cm 15cm 12cm, clip]{primer_narisan_trojno.png}
+        \caption{Primer slike trojnega nihala.}
+        \label{fig:primer_trojno}
+    \end{subfigure}
+    \caption{Primeri narisanih nihal.}
+\end{figure}
+
+Dobljene slike nato s pomočjo orodja \texttt{ffmpeg} in določenega \texttt{fps} (\textit{frames per second oz. sličic na sekundo}) združimo s funkcijo \texttt{ustvari\_video} v video datoteko.
+
+\section{Primeri risanja nihal}
+Poleg osnovnih dveh nihal, ki sta prikazana na sliki \ref{fig:primer_dvojno} in \ref{fig:primer_trojno} sva se lotili še nekaj bolj zanimivih primerov. Prav tako sva se igrali z barvami, zato se bodo morda barve na slikah med seboj malo razlikovale. Velik del videoposnetkov je dostopen na \href{https://github.com/nenasefman/n-kratno-nihalo/tree/main/video}{GitHub repozitoriju}.
+
+\subsection{Dvojna nihala v prostoru}
+V tem primeru sva narisali več dvojnih nihal, ki so obešena na različne višine v prostoru. Vsako izmed nihal ima svoje začetne pogoje, torej kota $\theta_1$ in $\theta_2$, mase in dolžini vrvic. Vsa nihala se spustijo iz mirovanja.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{primer_10x10_slikice_nihal.png}
+    \caption{$10 \times 10$ Dvojno nihalo}
+    \label{fig:dvojno_10x10}
+\end{figure}
 
 
 
+Primer takšenga risanja je na sliki \ref{fig:dvojno_10x10}.
+
+\subsection{Dvojna nihala kot kvadratki}
+
+
+\subsection{Dvojna nihala v koordinatnem sistemu $\theta_1$ in $\theta_2$}
+
+
+Dvojna nihala lahko narišemo tudi kot točke v koordinatnem sistemu, kjer je $x$ koordinata enaka kotu drugega nihala $\theta_2$, $y$ koordinata pa kotu prvega nihala $\theta_1$. Vsako nihalo ima svoje začetne pogoje, torej kota $\theta_1$ in $\theta_2$, mase in dolžini vrvic. Tudi tu se vsa nihala spustijo iz mirovanja. Da pa bi bila nihala bolj vidna, sva jim dodali še sledi - repe, ki za določen čas \texttt{T\_rep} hrani in riše pretekle položaje nihal. Primer risanja nihal v koordinatnem sistemu je na sliki \ref{fig:repki_primer}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth, trim=15cm 5cm 13cm 5cm, clip]{crvi_primer.png}
+    \caption{Primer risanja dvojnih nihal v koordinatnem sistemu z repi.}
+    \label{fig:repki_primer}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+\pagebreak
+\nocite{*}
 \printbibliography
 
 

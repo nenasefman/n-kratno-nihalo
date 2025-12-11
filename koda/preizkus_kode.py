@@ -102,22 +102,22 @@ a = 5
 b = round(a * 16/9)
 T_rep = 1.5
 radij = 0.03
-f_dz = resen_sistem_n_simbolicno(n)
-fps = 30
+# f_dz = resen_sistem_n_simbolicno(n)
+# fps = 30
 
-reseni_sistemi = [ 
-    resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_pog)
-    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
-]
+# reseni_sistemi = [ 
+#     resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_pog)
+#     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
+# ]
 
 
 
-narisi_sliko_s_thetami(reseni_sistemi, radij, dt, "./output/crvi_a200_barva_arctan_veliki", fps, T_rep, shrani=1)
-shrani_v_video("./output/crvi_a200_barva_arctan_veliki", "crvi_a200_barva_arctan_veliki.mp4", fps=30)
+# narisi_sliko_s_thetami(reseni_sistemi, radij, dt, "./output/crvi_a200_barva_arctan_veliki", fps, T_rep, shrani=1)
+# shrani_v_video("./output/crvi_a200_barva_arctan_veliki", "crvi_a200_barva_arctan_veliki.mp4", fps=30)
 
-# še kvadratki
-animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, "./output/kvadratki_a200_barva_arctan_veliki", fps, shrani=1)
-shrani_v_video("./output/kvadratki_a200_barva_arctan_veliki", "kvadratki_a200_barva_arctan_veliki.mp4", fps=30)
+# # še kvadratki
+# animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, "./output/kvadratki_a200_barva_arctan_veliki", fps, shrani=1)
+# shrani_v_video("./output/kvadratki_a200_barva_arctan_veliki", "kvadratki_a200_barva_arctan_veliki.mp4", fps=30)
 
 
 # # spremenimo thete

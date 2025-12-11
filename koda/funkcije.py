@@ -127,8 +127,8 @@ def resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_p
         
         dz_ = np.zeros(n)
         
+        args = list(th_) + list(z_) + list(l_val) + list(m_val) + [g_val]
         for i in range(n):
-            args = list(th_) + list(z_) + list(l_val) + list(m_val) + [g_val]
             dz_[i] = f_dz[i](*args)
         
         return np.ravel(np.column_stack((z_, dz_)))
