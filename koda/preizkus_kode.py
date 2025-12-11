@@ -93,29 +93,46 @@ PREIZKUS ZA VEČ DVOJNIH NIHAL NA RAVNINI theta_1, theta_2
 - risanje slik
 """
 
-tmax, dt = 10, 0.01
+tmax, dt = 30, 0.01
 n = 2
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-c = 10
-d = 10
+a = 5
+b = round(a * 16/9)
 T_rep = 1.5
 radij = 0.03
 f_dz = resen_sistem_n_simbolicno(n)
+fps = 30
 
 reseni_sistemi = [ 
-    resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
-    for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
+    resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_pog)
+    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
 ]
 
 
-shr_dir = "./output/crvi_10x10_barva_crno_belo_do_roba"
-fps = 30
 
-narisi_sliko_s_thetami(reseni_sistemi, radij, dt, shr_dir, fps, T_rep, shrani=1)
+narisi_sliko_s_thetami(reseni_sistemi, radij, dt, "./output/crvi_a200_barva_arctan_veliki", fps, T_rep, shrani=1)
+shrani_v_video("./output/crvi_a200_barva_arctan_veliki", "crvi_a200_barva_arctan_veliki.mp4", fps=30)
 
-shrani_v_video("./output/crvi_10x10_barva_crno_belo_do_roba", "crvi_10x10_barva_crno_belo_do_roba.mp4", fps=30)
+# še kvadratki
+animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, "./output/kvadratki_a200_barva_arctan_veliki", fps, shrani=1)
+shrani_v_video("./output/kvadratki_a200_barva_arctan_veliki", "kvadratki_a200_barva_arctan_veliki.mp4", fps=30)
+
+
+# # spremenimo thete
+# reseni_sistemi = [ 
+#     resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
+#     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
+# ]
+
+
+# narisi_sliko_s_thetami(reseni_sistemi, radij, dt, "./output/crvi_a200_barva_arctan_mali", fps, T_rep, shrani=1)
+# shrani_v_video("./output/crvi_a200_barva_arctan_mali", "crvi_a200_barva_arctan_mali.mp4", fps=30)
+
+# # še kvadratki
+# animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, "./output/kvadratki_a200_barva_arctan_mali", fps, shrani=1)
+# shrani_v_video("./output/kvadratki_a200_barva_arctan_mali", "kvadratki_a200_barva_arctan_mali.mp4", fps=30)
 
 
 

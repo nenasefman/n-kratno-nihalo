@@ -118,7 +118,6 @@ def barva_arctan(theta1, theta2, omega1, omega2, omega_max, w1=0.8, w2=0.2):
     - normalizira kote v (-pi, pi]
     - naredi uteženo vsoto vektorjev (cos,sin)
     - angle = atan2(y, x) in preslika v [0,1) za hue
-      (mapiranje izbere angle=0 -> h=0 (rdeča))
     - alfa glede na hitrost (isto kot drugod)
     """
     def norm(theta):
@@ -151,8 +150,8 @@ def barva_arctan(theta1, theta2, omega1, omega2, omega_max, w1=0.8, w2=0.2):
     else:
         nas = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
 
-    A = 0.2 + 0.8 * nas
-    return (R, G, B, 1)
+    A = 0.3 + 0.7 * nas
+    return (R, G, B, A)
 
 
 def barva_sistema(theta1, theta2, l_val, omega1, omega2, omega_max):

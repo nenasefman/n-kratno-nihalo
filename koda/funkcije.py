@@ -114,6 +114,34 @@ def resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog):
     return resen
 
 
+def resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_pog):
+    """
+    Numerično izračuna sistem diferencialnih enačb samo na časovnih točkah,
+    ki jih potrebujemo za video (fps).
+    """
+
+    def sistem_num(y, t, l_val, m_val, g_val):
+        n = len(y)//2
+        th_ = y[::2]
+        z_ = y[1::2]
+        
+        dz_ = np.zeros(n)
+        
+        for i in range(n):
+            args = list(th_) + list(z_) + list(l_val) + list(m_val) + [g_val]
+            dz_[i] = f_dz[i](*args)
+        
+        return np.ravel(np.column_stack((z_, dz_)))
+
+    # --- ČASOVNE TOČKE ZA VIDEO ---
+    N = int(tmax * fps)
+    t = np.linspace(0, tmax, N)
+
+    resen = odeint(sistem_num, zac_pog, t, args=(l_val, m_val, g_val))
+
+    return resen
+
+
 def preveri_energijo_sistema(resen, g_val, m_val, l_val, tol=0.001):
     ''' 
     funkcija, ki sprejme:

@@ -196,8 +196,6 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
 
     assert len(reseni_sistemi) == a * b, "Podaj točno axb rešenih sistemov."
 
-    k = int((1/fps)/dt)
-
     # Ustvari direktorij in shrani slike
     if shrani==1:
         os.makedirs(shr_dir, exist_ok=True)
@@ -222,7 +220,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     max_len = min([r.shape[0] for r in reseni_sistemi])
     frame_id = 0
 
-    for frame_i in range(0, max_len, k):
+    for frame_i in range(max_len):
 
         for idx in range(a*b):
 
@@ -236,8 +234,8 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
             omega1 = res[frame_i, 1]
             omega2 = res[frame_i, 3]
 
-            # omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
-            barva = barva_crno_belo(theta1, theta2)
+            omega_max = max(np.max(np.abs(omega1)), np.max(np.abs(omega2)))
+            barva = barva_arctan(theta1, theta2, omega1, omega2, omega_max)
 
             mreza[i, j] = barva  
 

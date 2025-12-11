@@ -249,8 +249,7 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
     - shrani : 0 = animacija, 1 = shranjevanje slik
     """
 
-    k = int((1/fps)/dt)
-    N_rep = int(T_rep/dt)
+    N_rep = int(T_rep * fps)
 
     # izračun globalnega maksimuma za barve
     omega_max = max(
@@ -295,7 +294,7 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
     N_frames = min(res.shape[0] for res in resen_list)
     frame_id = 0
 
-    for t_i in range(0, N_frames, k):
+    for t_i in range(N_frames):
 
         # risanje vsakega nihala posebej
         for idx, res in enumerate(resen_list):
