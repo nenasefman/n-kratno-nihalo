@@ -177,14 +177,14 @@ d = 5
 PREIZKUS ZA BARVANJE KVADRATKOV
 """
 
-tmax, dt = 10, 0.01
+tmax, dt = 30, 0.01
 
 n = 2
 f_dz = resen_sistem_n_simbolicno(n)
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-a = 72
+a = 128
 b = round(a * 16/9)
 
 
@@ -193,10 +193,10 @@ reseni_sistemi = [
     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
 ]
 
-shr_dir = "./output/kvadratki_a72"
+shr_dir = "./output/kvadratki_a128"
 fps = 30
 
 animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
-shrani_v_video("./output/kvadratki_a72", "kvadratki_a72_barva_crno_belo.mp4", fps=30)
+shrani_v_video("./output/kvadratki_a128", "kvadratki_a1128_barva_crno_belo.mp4", fps=30)
 
