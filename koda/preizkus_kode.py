@@ -11,21 +11,21 @@ PREIZKUS ZA DVOJNO NIHALO
 - preizkus različega risanja
 - preizkus shranjevanja v video
 """
-tmax, dt = 10, 0.01
-zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-n = 2
-l1, l2 = 1, 1
-l_val = [l1, l2]
-m_val = [1 for _ in range(n)]
-g_val = 9.81
+# tmax, dt = 10, 0.01
+# zac_pog = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+# n = 2
+# l1, l2 = 1, 1
+# l_val = [l1, l2]
+# m_val = [1 for _ in range(n)]
+# g_val = 9.81
 
 # resen = resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog)
 
 # print(preveri_energijo_sistema(resen, g_val, m_val, l_val, dt))
 
-radij = 0.03
-shr_dir = "./output/dvojno_nihalo_frames"
-fps = 30
+# radij = 0.03
+# shr_dir = "./output/dvojno_nihalo_frames"
+# fps = 30
 
 # narisi_sliko_2(resen, l1, l2, radij, dt, shr_dir, fps, shrani=0)
 
@@ -63,15 +63,15 @@ PREIZKUS ZA 2x2 sistem
 - risanje slik
 """
 
-tmax, dt = 10, 0.01
-zac_pog_1 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-zac_pog_2 = np.array([np.pi/2, 0, np.pi/2, 0])
-zac_pog_3 = np.array([np.pi/2, 0, np.pi, 0])
-zac_pog_4 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
-n = 2
-l_val = [1 for _ in range(n)]
-m_val = [1 for _ in range(n)]
-g_val = 9.81
+# tmax, dt = 10, 0.01
+# zac_pog_1 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+# zac_pog_2 = np.array([np.pi/2, 0, np.pi/2, 0])
+# zac_pog_3 = np.array([np.pi/2, 0, np.pi, 0])
+# zac_pog_4 = np.array([np.pi/2, 0, 3*np.pi/4, 0])
+# n = 2
+# l_val = [1 for _ in range(n)]
+# m_val = [1 for _ in range(n)]
+# g_val = 9.81
 
 # reseni_sistemi = [
 #     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog_1),
@@ -93,28 +93,29 @@ PREIZKUS ZA VEČ DVOJNIH NIHAL NA RAVNINI theta_1, theta_2
 - risanje slik
 """
 
-# tmax, dt = 10, 0.01
+tmax, dt = 10, 0.01
+n = 2
+l_val = [1 for _ in range(n)]
+m_val = [1 for _ in range(n)]
+g_val = 9.81
+c = 10
+d = 10
+T_rep = 1.5
+radij = 0.03
+f_dz = resen_sistem_n_simbolicno(n)
 
-# l_val = [1 for _ in range(n)]
-# m_val = [1 for _ in range(n)]
-# g_val = 9.81
-# c = 3
-# d = 3
+reseni_sistemi = [ 
+    resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
+    for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
+]
 
-# resen_sez = [
-#     resen_sistem_n(2, g_val, m_val, l_val, tmax, dt, zac_pog) 
-#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(0, np.pi), theta2_range=(0, np.pi)) 
-# ]
 
-# radij = 0.03
-# shr_dir = "./output/theta_2-1_na_grafu_slikice3x3"
-# fps = 30
+shr_dir = "./output/crvi_10x10_barva_crno_belo_do_roba"
+fps = 30
 
-# T_rep = 1.5
+narisi_sliko_s_thetami(reseni_sistemi, radij, dt, shr_dir, fps, T_rep, shrani=1)
 
-# narisi_sliko_s_thetami(resen_sez, radij, dt, shr_dir, fps, T_rep, shrani=1)
-
-# shrani_v_video("./output/theta_2-1_na_grafu_slikice3x3", fps=30)
+shrani_v_video("./output/crvi_10x10_barva_crno_belo_do_roba", "crvi_10x10_barva_crno_belo_do_roba.mp4", fps=30)
 
 
 
@@ -124,19 +125,21 @@ PREIZKUS ZA VEČ DVOJNIH NIHAL V GRIDU
 - risanje slik 10x10
 """
 
-tmax, dt = 10, 0.01   
+# tmax, dt = 10, 0.01   
 
-n = 2
-l_val = [1 for _ in range(n)]
-m_val = [1 for _ in range(n)]
-g_val = 9.81
-c = 5
-d = 5
+# n = 2
+# l_val = [1 for _ in range(n)]
+# m_val = [1 for _ in range(n)]
+# g_val = 9.81
+# c = 5
+# d = 5
 
-# reseni_sistemi = [
-#     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
-#     for zac_pog in generiraj_zacetne_pogoje_axb(c, d, theta1_range=(-np.pi/2, np.pi/2), theta2_range=(-np.pi/2, np.pi/2)) 
+
+# reseni_sistemi = [ 
+#     resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
+#     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
 # ]
+
 
 # shr_dir = "./output/whatever2"
 # fps = 30
@@ -151,14 +154,14 @@ PREIZKUS ZA VEČ DVOJNIH NIHAL V GRIDU
 - risanje slik 5x5
 """
 
-tmax, dt = 15, 0.01   
+# tmax, dt = 15, 0.01   
 
-n = 2
-l_val = [1 for _ in range(n)]
-m_val = [1 for _ in range(n)]
-g_val = 9.81
-c = 5
-d = 5
+# n = 2
+# l_val = [1 for _ in range(n)]
+# m_val = [1 for _ in range(n)]
+# g_val = 9.81
+# c = 5
+# d = 5
 
 # reseni_sistemi = [
 #     resen_sistem_n(n, g_val, m_val, l_val, tmax, dt, zac_pog) 
@@ -188,15 +191,15 @@ a = 128
 b = round(a * 16/9)
 
 
-reseni_sistemi = [ 
-    resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
-    for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
-]
+# reseni_sistemi = [ 
+#     resen_sistem_n_numericno(f_dz, g_val, m_val, l_val, tmax, dt, zac_pog) 
+#     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
+# ]
 
 shr_dir = "./output/kvadratki_a128"
 fps = 30
 
-animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
+# animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
 shrani_v_video("./output/kvadratki_a128", "kvadratki_a1128_barva_crno_belo.mp4", fps=30)
 

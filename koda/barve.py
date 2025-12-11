@@ -152,7 +152,7 @@ def barva_arctan(theta1, theta2, omega1, omega2, omega_max, w1=0.8, w2=0.2):
         nas = np.clip(np.sqrt(omega1**2 + omega2**2) / omega_max, 0, 1)
 
     A = 0.2 + 0.8 * nas
-    return (R, G, B, A)
+    return (R, G, B, 1)
 
 
 def barva_sistema(theta1, theta2, l_val, omega1, omega2, omega_max):

@@ -264,60 +264,64 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
             os.remove(f)
 
     # figure
-    fig = plt.figure(figsize=(1920/120, 1080/120), dpi=120)
-    ax = fig.add_subplot(111)
+    fig, ax = plt.subplots(figsize=(1920/120, 1080/120), dpi=120)
+    fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
     ax.set_aspect("equal")
     fig.patch.set_facecolor("black")
-
-    # izračun skupne dolžine animacije
-    N_frames = min(res.shape[0] for res in resen_list)
-
-    frame_id = 0
 
     # meje osi
     vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
     vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
 
-    ylim = (np.min(vse_theta1)-0.5, np.max(vse_theta1)+0.5)
-    xlim = (np.min(vse_theta2)-0.5, np.max(vse_theta2)+0.5)
+    ylim = (np.min(vse_theta1), np.max(vse_theta1))
+    xlim = (np.min(vse_theta2), np.max(vse_theta2))
     ax.set_ylim(ylim)
     ax.set_xlim(xlim)
 
-    fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    plt.axis("off")
+
+    # Naredimo objekte
+    crte = []
+    kroglice = []
+    
+    for _ in resen_list:
+        crta, = ax.plot([], [], lw=1)
+        crte.append(crta)
+        kroglica = Circle((0, 0), radij, fc='r', ec='r', zorder=10)
+        ax.add_patch(kroglica)
+        kroglice.append(kroglica)
+
+    # izračun skupne dolžine animacije
+    N_frames = min(res.shape[0] for res in resen_list)
+    frame_id = 0
 
     for t_i in range(0, N_frames, k):
 
         # risanje vsakega nihala posebej
-        for res in resen_list:
+        for idx, res in enumerate(resen_list):
 
             theta1 = res[:,0]
             omega1 = res[:,1]
             theta2 = res[:,2]
             omega2 = res[:,3]
 
-            # barva posameznega nihala
+            # barva sistema
             barva = barva_arctan(theta1[t_i], theta2[t_i], omega1[t_i], omega2[t_i], omega_max)
 
             # risanje repa
             if t_i > N_rep:
                 t_start = t_i - N_rep
-                ax.plot(theta2[t_start:t_i], theta1[t_start:t_i],
-                        lw=1, alpha=0.5, c=barva)
             else:
-                ax.plot(theta2[:t_i], theta1[:t_i],
-                        lw=1, alpha=0.5, c=barva)
+                t_start = 0
+
+            crte[idx].set_data(theta2[t_start:t_i], theta1[t_start:t_i])
+            crte[idx].set_color(barva)
 
             # trenutna pozicija nihala v koordinatnem sistemu theta1, theta2
-            c = Circle((theta2[t_i], theta1[t_i]), radij,
-                       fc=barva, ec=barva, zorder=10)
-            ax.add_patch(c)
+            kroglice[idx].center = (theta2[t_i], theta1[t_i])
+            kroglice[idx].set_facecolor(barva)
+            kroglice[idx].set_edgecolor(barva)
 
-        
-
-        ax.set_ylim(ylim)
-        ax.set_xlim(xlim)
-
-        plt.axis("off")
 
         if shrani == 1:
             plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120)
@@ -325,4 +329,4 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
             plt.pause(1/fps)
 
         frame_id += 1
-        ax.clear()
+    plt.close(fig)
