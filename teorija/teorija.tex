@@ -48,7 +48,7 @@ Oglejmo si primer na sliki:
 
 Imamo dve žogici z masama $m_1$ in $m_2$ na palčkah dolžine $l_1$ in $l_2$ z zanemarljivo maso.
 
-Recimo, da je prva žogica na $(x_1, y_1)$ in druga žogica na $(x_2, y_2)$. Te koordinate dobimo kot:
+Recimo, da je prva žogica na $(x_1, y_1)$ in druga žogica na $(x_2, y_2)$. Te koordinate izrazimo s kotoma $\theta1, \theta2$ kot
 \begin{align*}
 x_1 &= l_1 \sin(\theta_1), \\
 x_2 &= l_1 \sin(\theta_1) + l_2 \sin(\theta_2), \\
@@ -61,7 +61,7 @@ y_2 &= -l_1 \cos(\theta_1) - l_2 \cos(\theta_2).
 Potencialna energija je definirana kot $V = m g h$, kjer je višina žogice dana z $h = y$. \\
 Za posamezni masi velja: $$h_1 = y_1, \quad h_2 = y_2.$$
 
-Torej celotna potencialna energija sistema je:
+Celotna potencialna energija sistema je torej
 \begin{align*}
 V &= V_1 + V_2 \\
 &= m_1 g(-l_1 \cos\theta_1) + m_2 g(-l_1 \cos\theta_1 - l_2 \cos\theta_2).
@@ -71,16 +71,16 @@ V &= V_1 + V_2 \\
 
 Kinetična energija vsake žogice je podana z izrazom $$T = \frac{1}{2} m v^2.$$
 
-Hitrost žogic dobimo s pomočjo izraza $v = \sqrt{\dot{x}^2 + \dot{y}^2}$.
+Hitrost žogic izračunamo po formuli $v = \sqrt{\dot{x}^2 + \dot{y}^2}$.
 
 Odvodi koordinat so: \begin{align*}
-\dot{x}_1 &= l_1 \dot{\theta}_1 \cos(\theta_1) \\
-\dot{x}_2 &= l_1 \dot{\theta}_1 \cos(\theta_1) + l_2 \dot{\theta}_2 \cos(\theta_2) \\
-\dot{y}_1 &= l_1 \dot{\theta}_1 \sin(\theta_1) \\
-\dot{y}_2 &= l_1 \dot{\theta}_1 \sin(\theta_1) + l_2 \dot{\theta}_2 \sin(\theta_2)
+\dot{x}_1 &= l_1 \dot{\theta}_1 \cos(\theta_1), \\
+\dot{x}_2 &= l_1 \dot{\theta}_1 \cos(\theta_1) + l_2 \dot{\theta}_2 \cos(\theta_2), \\
+\dot{y}_1 &= l_1 \dot{\theta}_1 \sin(\theta_1), \\
+\dot{y}_2 &= l_1 \dot{\theta}_1 \sin(\theta_1) + l_2 \dot{\theta}_2 \sin(\theta_2).
 \end{align*}
 
-Skupna kinetična energija sistema je torej:
+Skupno kinetično energijo sistema torej izrazimo kot
 $$T = T_1 + T_2 = \frac{m_1}{2}(\dot{x}_1^2 + \dot{y}_1^2) + \frac{m_2}{2}(\dot{x}_2^2 + \dot{y}_2^2)$$
 
 Lotimo se sedaj zapisa sistema Euler-Lagrangeevih enačb \cite{wikipedia:lagrangian} za $\mathcal{L} = T-V$:
@@ -96,7 +96,7 @@ $$\frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_i}}\Big) = 
 Najprej izpeljimo za $\theta_1$:
 \begin{align*}
     \frac{\partial \mathcal{L}}{\partial \dot{\theta_1}} =& \, m_1 l_1^2 \dot{\theta_1} + m_2 l_1^2 \dot{\theta_1} + m_2 l_1 l_2 \dot{\theta_2} \cos(\theta_1 - \theta_2),\\
-    \frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_1}}\Big) =& \, \, m_1 l_1^2 \ddot{\theta_1} + m_2 l_1 l_2 [\ddot{\theta_2} \cos(\theta_1 - \theta_2)- \dot{\theta_2} \sin(\theta_1 - \theta_2)(\dot{\theta_1}-\dot{\theta_2})]\\
+    \frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_1}}\Big) =& \, \, m_1 l_1^2 \ddot{\theta_1} + m_2 l_1 l_2 [\ddot{\theta_2} \cos(\theta_1 - \theta_2)- \dot{\theta_2} \sin(\theta_1 - \theta_2)(\dot{\theta_1}-\dot{\theta_2})],\\
     \frac{\partial \mathcal{L}}{\partial \theta_1} =& \, -m_2 l_1 l_2 \dot{\theta_1}\dot{\theta_2} \sin (\theta_1 - \theta_2) - (m_1 + m_2) l_1 g \sin\theta_1.
 \end{align*}
 Torej za $i=1$ dobimo:
@@ -104,13 +104,13 @@ Torej za $i=1$ dobimo:
     \frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_1}}\Big) - \frac{\partial \mathcal{L}}{\partial \theta_1} =& \, (m_1 + m_2) (l_1^2 \ddot{\theta_1}) + m_2 l_1 l_2 [\ddot{\theta_2}\cos (\theta_1 - \theta_2) + \dot{\theta_2}^2 \sin(\theta_1 - \theta_2)] \\
     &+(m_1 + m_2)l_1 g \sin \theta_1 = 0 \quad /:l_1.
 \end{align*}
-Podobno naredimo za $\theta_2$ in dobimo:
+Podobno naredimo še za $i=2$ in dobimo:
 \begin{align*}
-    \frac{\partial \mathcal{L}}{\partial \dot{\theta_2}} =& \, m_2 l_2^2 \dot{\theta_2} + m_2 l_1 l_2 \dot{\theta_1} \cos(\theta_1 - \theta_2)\\
-    \frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_2}}\Big) =& \, m_2 l_2^2 \ddot{\theta_2} + m_2 l_1 l_2 [\ddot{\theta_1} \cos(\theta_1 - \theta_2) - \dot{\theta_1} \sin (\theta_1 - \theta_2)(\dot{\theta_1} - \dot{\theta_2})]\\
-    \frac{\partial \mathcal{L}}{\partial \theta_2}=& \, -m_2 l_1 l_2 \dot{\theta_1} \dot{\theta_2} \sin(\theta_1 - \theta_2) - m_2 l_2 g \sin \theta_2
+    \frac{\partial \mathcal{L}}{\partial \dot{\theta_2}} =& \, m_2 l_2^2 \dot{\theta_2} + m_2 l_1 l_2 \dot{\theta_1} \cos(\theta_1 - \theta_2),\\
+    \frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_2}}\Big) =& \, m_2 l_2^2 \ddot{\theta_2} + m_2 l_1 l_2 [\ddot{\theta_1} \cos(\theta_1 - \theta_2) - \dot{\theta_1} \sin (\theta_1 - \theta_2)(\dot{\theta_1} - \dot{\theta_2})],\\
+    \frac{\partial \mathcal{L}}{\partial \theta_2}=& \, -m_2 l_1 l_2 \dot{\theta_1} \dot{\theta_2} \sin(\theta_1 - \theta_2) - m_2 l_2 g \sin \theta_2.
 \end{align*}
-Euler-Lagrangeeva enačba za $i=2$ se torej glasi:
+Iz tega zapišemo še drugo Euler-Lagrangeevo enačbo:
 \begin{align*}
     \frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_2}}\Big) - \frac{\partial \mathcal{L}}{\partial \theta_2} =& \, m_2 l_2^2 \ddot{\theta_2} + m_2 l_1 l_2 (\ddot{\theta_1} \cos(\theta_1 - \theta_2) - \dot{\theta_1}^2 \sin (\theta_1 - \theta_2)) + m_2l_2 g \sin \theta_2 =0 \quad /:l_2
 \end{align*}
@@ -122,14 +122,17 @@ Dobimo sistem diferencialnih enačb:
 \end{align*}
 
 \subsection{Trojno nihalo}
-Kaj pa bi se zgodilo, če vzamemo trojno nihalo? Predpostavimo, da na drugo žogico pripnemo preko vrvice $l_3$ še eno žogico z maso $m_3$.
+Kaj pa bi se zgodilo, če vzamemo trojno nihalo? Predpostavimo, da na drugo žogico pripnemo še eno vrvico dolžine $l_3$ in žogico z maso $m_3$.
 
 Ta žogica je na položaju 
 \begin{align*}
-    x_3 &= l_1 \sin\theta_1 + l_2 \sin \theta_2 + l_3 \sin \theta_3\\
-    y_3 &= - l_1 \cos \theta_1 - l_2 \cos \theta_2 - l_3 \cos \theta_3\\
-    \dot{x_3} &= l_1 \dot{\theta_1} \cos \theta_2 + l_2 \dot{\theta_2} \cos \theta_2 + l_3 \dot{\theta_3} \cos \theta_3\\
-    \dot{y_3} &= l_1 \dot{\theta_1} \sin \theta_2 + l_2 \dot{\theta_2} \sin \theta_2 + l_3 \dot{\theta_3} \sin \theta_3
+    x_3 &= l_1 \sin\theta_1 + l_2 \sin \theta_2 + l_3 \sin \theta_3,\\
+    y_3 &= - l_1 \cos \theta_1 - l_2 \cos \theta_2 - l_3 \cos \theta_3,
+\end{align*}
+prva odvoda koordinat po času pa sta
+\begin{align*}
+    \dot{x_3} &= l_1 \dot{\theta_1} \cos \theta_2 + l_2 \dot{\theta_2} \cos \theta_2 + l_3 \dot{\theta_3} \cos \theta_3,\\
+    \dot{y_3} &= l_1 \dot{\theta_1} \sin \theta_2 + l_2 \dot{\theta_2} \sin \theta_2 + l_3 \dot{\theta_3} \sin \theta_3.
 \end{align*}
 
 Za ta sistem imamo:
@@ -160,18 +163,18 @@ Podobno kot za dvojno nihalo tudi tu dobimo sistem enačb za $\theta_i$, $i=1,2,
 % \end{align*}
 
 \section{Postopek animacije}
-Za sistem dvojnega nihala sva v programskem jeziku \texttt{python} napisali funkcijo \\ \texttt{resen\_sistem\_n\_simbolicno}, ki simbolično zapiše sistem enačb v odvisnosti od števila $n$ - torej števila nihal. Potem z uporabo funkcije \texttt{resen\_sistem\_n\_numericno} glede na
+Za sistem dvojnega nihala sva v programskem jeziku \texttt{python} napisali funkcijo \\ \texttt{resen\_sistem\_n\_simbolicno}, ki simbolično zapiše sistem diferencialnih enačb za izbrano število nihal $n$. Potem z uporabo funkcije \texttt{resen\_sistem\_n\_numericno} glede na
 \begin{itemize}
-    \item izbrane mase $m_1, m_2, \ldots, m_n$
-    \item dolžine vrvic $l_1, l_2,\ldots, l_n$
-    \item začetne $\theta_1, \theta_2, \ldots, \theta_n$
-    \item $dt\ \ldots$ korak v času
-    \item $tmax\ \ldots$ časovna dolžina videa
+    \item mase $m_1, m_2, \ldots, m_n,$
+    \item dolžine vrvic $l_1, l_2,\ldots, l_n,$
+    \item začetne pogoje $\theta_1, \dot{\theta_1}, \theta_2, \dot{\theta_2},\ldots, \theta_n, \dot{\theta_n},$
+    \item  korak $dt,$
+    \item  čas nihanja $t_{max}$
 \end{itemize}
 
-za vsak $t = k\cdot dt, \ k = 0,1,\ldots, \frac{tmax}{dt}$ rešimo sistem diferencialnih enačb in dobimo matriko z elementi $[\theta_1, \dot{\theta_1}, \theta_2, \dot{\theta_2}, \ldots, \theta_n, \dot{\theta_n}]$.
+za vsak $t_k = k\cdot dt, \ k = 0,1,\ldots, \lfloor \frac{tmax}{dt} \rfloor$ rešimo sistem diferencialnih enačb in dobimo matriko z vrsticami $[\theta_1(t_k), \dot{\theta_1}(t_k), \theta_2(t_k), \dot{\theta_2}(t_k), \ldots, \theta_n(t_k), \dot{\theta_n}(t_k)], \quad k = 0,1,\ldots, \lfloor \frac{tmax}{dt} \rfloor$. Za numerično reševanje diferencialnih sva uporabili funkcijo %\texttt{solve_ivp} (kaj je to zaena numerična metoda).
 
-S pomočjo dobljenih vrednosti nato izračunamo koordinate vsake žogice v vsakem časovnem trenutku in jih narišemo z uporabo funkcije \texttt{narisi\_sliko\_2} za risanje preprostega dvojnega nihala. Podobno sva naredili tudi za trojno nihalo s funkcijo \texttt{narisi\_sliko\_3}.
+S pomočjo dobljenih vrednosti nato izračunamo koordinate vsake žogice v vsakem trenutku in jih narišemo z uporabo funkcije \texttt{narisi\_sliko\_2} za risanje preprostega dvojnega nihala. Podobno sva naredili tudi za trojno nihalo s funkcijo \texttt{narisi\_sliko\_3}.
 
 \begin{figure}[h!]
     \centering
@@ -210,6 +213,22 @@ V tem primeru sva narisali več dvojnih nihal, ki so obešena na različne viši
 Primer takšenga risanja je na sliki \ref{fig:dvojno_10x10}.
 
 \subsection{Dvojna nihala kot kvadratki}
+
+Ker risanje velikega števila dvojnih nihal v mrežo kmalu postane praktično nemogoče, sva se odločili prikazovati samo še njihove barve. Te sva določali na različne načine preko kotov $\theta_1, \theta_2$ in kotnih hitrosti $\dot{\theta_1}, \dot{\theta_2}$ nihal v posameznih trenutkih (funkcije za barvanje lahko najdete na repozitoriju v datoteki \texttt{barve.py}). Na ta način sva lahko narisali mnogo mnogo večje mreže. Začetne pogoje nihal, ki so si blizu skupaj, sva nastavili tako, da so si zelo podobni, ter na ta način vizualizirali fazne portrete obravnavanih diferencialnih enačb. Primer takšnega risanja je prikazan na slikah \ref{fig:crnobeli_kvadratki} in \ref{fig:barvni_kvadratki}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{crnobeli_kvadratki.png}
+    \caption{Primer risanja dvojnih nihal predstavljenih kot barvni kvadratki.}
+    \label{fig:crnobeli_kvadratki}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{crnobeli_kvadratki.png}
+    \caption{Primer risanja dvojnih nihal predstavljenih kot barvni kvadratki.}
+    \label{fig:barvni_kvadratki}
+\end{figure}
 
 
 \subsection{Dvojna nihala v koordinatnem sistemu $\theta_1$ in $\theta_2$}
