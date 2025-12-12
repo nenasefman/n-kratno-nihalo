@@ -8,6 +8,7 @@ Razne funkcije za barvanje nihal, glede na kode, kotne hitrosti itd.
 
 
 def barva_sistema_bauer(theta1, theta2):
+    """ Dost slaba, niti približno zvezna. """
     
     theta1 = theta1 % (2*np.pi)
     theta2 = theta2 % (2*np.pi)
@@ -34,6 +35,9 @@ def barva_sistema_bauer(theta1, theta2):
 
 
 def barva_kineticna_energija(omega1, omega2):
+    """ Dobili idejo pri https://github.com/MoeHippo76/Double-Pendulum-/blob/main/Pendulum.java, 
+     niti ni tok slaba. """
+
     masa = 1
     E_kin = 0.5 * masa * (omega1**2 + omega2**2)
 
@@ -235,3 +239,39 @@ def barva_kroglice(theta, omega, omega_max, min_svet):
     A = osnovna_barva[3] # nasičenost barve (privzeto cm.hsv() vrača 1)
     
     return (R, G, B, A)
+
+
+def barva_arctan_hitro(tensor, w1=0.8, w2=0.2):
+    """
+    Preslikava (theta1, theta2) -> hue z uporabo arctan2:
+    - normalizira kote v (-pi, pi]
+    - naredi uteženo vsoto vektorjev (cos,sin)
+    - angle = atan2(y, x) in preslika v [0,1) za hue
+    - alfa glede na hitrost (isto kot drugod)
+    """
+
+    def norm(theta):
+        t = np.mod(theta + np.pi, 2*np.pi)
+        return np.where(t>np.pi, t-2*np.pi, t)
+    
+    t1 = norm(tensor[:,:,:,0])
+    t2 = norm(tensor[:,:,:,2])
+
+    x = w1 * np.cos(t1) + w2 * np.cos(t2)
+    y = w1 * np.sin(t1) + w2 * np.sin(t2)
+
+    r = np.hypot(x, y)
+    angle_pravi = np.arctan2(y,x)
+    angle_fallback = (t1 + t2) / 2.0
+
+    angle = np.where(r < 1e-12, angle_fallback, angle_pravi)
+
+    # Preslika tako, da angle=0 -> h=0 (rdeča), z zveznim prehodom
+    h = np.mod(angle / (2 * np.pi), 1.0) 
+
+    osnovna = cm.get_cmap('hsv')(h)
+    R = osnovna[...,0]
+    G = osnovna[...,1]
+    B = osnovna[...,2]
+
+    return np.stack([R, G, B, np.ones(R.shape)], axis=-1)

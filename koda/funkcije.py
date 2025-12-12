@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import sympy as sp
-from scipy.integrate import odeint
+from scipy.integrate import odeint, solve_ivp
 import subprocess
 
 """
@@ -140,6 +140,58 @@ def resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_p
     resen = odeint(sistem_num, zac_pog, t, args=(l_val, m_val, g_val))
 
     return resen
+
+
+# Za n = 2 ne rabiva računati simbolično, veliko hitreje je, da ročno zapiševa funkcijo.
+# Poleg tega je odeint zelo počasna -> raje poskusiva s solve_ivp, kjer računava po metodi 
+# RK45 (dva Runge-Kutta izračuna istega koraka, eden 4. reda, drugi 5. reda).
+# solve_ivp pričakuje funkcijo f(t,y) = dy/dt in tako funkcijo vrača sistem_2_na_roke
+def sistem_2_vektor(m_val, l_val, g_val):
+    """
+    Na roke napisana funkcija za dvojno nihalo, ki bo hitrejša od splošne.
+    """
+    m1, m2 = m_val
+    l1, l2 = l_val
+    def trenutno_stanje_sistema(t, y):
+        t1, o1, t2, o2 = y[0,:], y[1,:], y[2,:], y[3,:]
+
+        dtheta = t1 - t2
+        cos_d = np.cos(dtheta)
+        sin_d = np.sin(dtheta)
+
+        imenovalec = 2 * m1 + m2 - m2 * np.cos(2*dtheta)
+        stevec_1 = (
+            -g_val * (2 * m1 + m2) * np.sin(t1)
+            - m2 * g_val * np.sin(t1 - 2 * t2)
+            - 2 * sin_d * m2 * (o2**2 * l2 + o1**2 * l1 * cos_d)
+        )
+        ddot_theta1 = stevec_1 / (l1 * imenovalec)
+
+        stevec_2 = (
+            2 * sin_d * (
+                o1**2 * l1 * (m1 + m2)
+                + g_val * (m1 + m2) * np.cos(t1)
+                + o2**2 * l2 * m2 * cos_d
+            )
+        )
+        ddot_theta2 = stevec_2 / (l2 * imenovalec)
+        return np.array([o1, ddot_theta1, o2, ddot_theta2])
+    
+    return trenutno_stanje_sistema
+
+
+def resen_sistem_2_numericno(tmax, t, Y0):
+    func = sistem_2_vektor((1,1), (1,1), 9.81)
+    resitev_de = solve_ivp(
+        fun=func,
+        t_span=(0,tmax),
+        y0=Y0,
+        t_eval=t,
+        method="RK45",
+        vectorized=True).y.T #.y vrney kot matriko i=št.spr., j=št.čas.točk -> .T transponiramo
+
+    return resitev_de
+
 
 
 def preveri_energijo_sistema(resen, g_val, m_val, l_val, tol=0.001):
