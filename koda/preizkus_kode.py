@@ -244,14 +244,14 @@ l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
 dt = 0.01
-a = 5
+a = 100
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps))
-theta1_range=(-np.pi, np.pi)
-theta2_range=(-np.pi, np.pi)
+theta1_range=(- np.pi, np.pi)
+theta2_range=(- np.pi/2, np.pi/2)
 theta1_r = '-pi_pi'
-theta2_r = '-pi_pi'
+theta2_r = '-pi2_pi2'
 
 def map_solve(pogoj):
     return resen_sistem_2_numericno(tmax, t, pogoj)
@@ -273,14 +273,14 @@ def export():
 # narišem oz. shranim slikice
 def gen_draw():
     resitve = np.load(f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}.npy")
-    shr_dir = f"./output/kvadratki_a{a}"
+    shr_dir = f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}"
     animacija_barvanje_kvadratkov_axb(resitve, a, b, dt, shr_dir, fps, shrani=1)
 
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
 if __name__ == '__main__':
-    #export()
+    # export()
     gen_draw()
-    # shrani_v_video("./output/kvadratki_a72", "kvadratki_a72_barva_original_povprecje_dvapi.mp4", fps=30)
-
+    shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
+                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}.mp4", fps=30)
 
