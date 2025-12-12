@@ -244,14 +244,14 @@ l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
 dt = 0.01
-a = 500
+a = 200
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps))
-theta1_range=(- np.pi, np.pi)
-theta2_range=(- np.pi/2, np.pi/2)
-theta1_r = '-pi_pi'
-theta2_r = '-pi2_pi2'
+theta1_range=(- 3* np.pi, 3*np.pi)
+theta2_range=(- 3*np.pi, 3*np.pi/2)
+theta1_r = '-3pi_3pi'
+theta2_r = '-3pi_3pi'
 
 def map_solve(pogoj):
     return resen_sistem_2_numericno(tmax, t, pogoj)
@@ -279,8 +279,8 @@ def gen_draw():
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
 if __name__ == '__main__':
-    # export()
+    #export()
     gen_draw()
     shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
-                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}.mp4", fps=30)
+                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_bilinear.mp4", fps=30)
 

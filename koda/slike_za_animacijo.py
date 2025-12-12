@@ -224,7 +224,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
     img = ax.imshow(mreza[:, :, 0, :],  # da vzame točno to eno sliko
-                interpolation="nearest",
+                interpolation="bilinear",
                 vmin=0, vmax=1,
                 aspect='auto')
     
