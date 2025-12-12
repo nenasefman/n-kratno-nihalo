@@ -172,7 +172,7 @@ Za sistem dvojnega nihala sva v programskem jeziku \texttt{python} napisali funk
     \item  čas nihanja $t_{max}$
 \end{itemize}
 
-za vsak $t_k = k\cdot dt, \ k = 0,1,\ldots, \lfloor \frac{tmax}{dt} \rfloor$ rešimo sistem diferencialnih enačb in dobimo matriko z vrsticami $[\theta_1(t_k), \dot{\theta_1}(t_k), \theta_2(t_k), \dot{\theta_2}(t_k), \ldots, \theta_n(t_k), \dot{\theta_n}(t_k)], \quad k = 0,1,\ldots, \lfloor \frac{tmax}{dt} \rfloor$. Za numerično reševanje diferencialnih sva uporabili funkcijo %\texttt{solve_ivp} (kaj je to zaena numerična metoda).
+za vsak $t_k = k\cdot dt, \ k = 0,1,\ldots, \lfloor \frac{tmax}{dt} \rfloor$ rešimo sistem diferencialnih enačb in dobimo matriko z vrsticami $[\theta_1(t_k), \dot{\theta_1}(t_k), \theta_2(t_k), \dot{\theta_2}(t_k), \ldots, \theta_n(t_k), \dot{\theta_n}(t_k)], \quad k = 0,1,\ldots, \lfloor \frac{tmax}{dt} \rfloor$. Za numerično reševanje diferencialnih enačb sva uporabili funkcijo \texttt{solve\_ivp} z RK45 metodo. Ta metoda je podrobneje opisana v \cite{scipy:solveivp}. V nekaterih prejšnjih verzijah pa sva uporabili tudi funkcijo \texttt{odeint} (\textit{ordinary differential equation integration}), ki je opisana v \cite{scipy:odeint}.
 
 S pomočjo dobljenih vrednosti nato izračunamo koordinate vsake žogice v vsakem trenutku in jih narišemo z uporabo funkcije \texttt{narisi\_sliko\_2} za risanje preprostega dvojnega nihala. Podobno sva naredili tudi za trojno nihalo s funkcijo \texttt{narisi\_sliko\_3}.
 
@@ -196,7 +196,7 @@ S pomočjo dobljenih vrednosti nato izračunamo koordinate vsake žogice v vsake
 Dobljene slike nato s pomočjo orodja \texttt{ffmpeg} in določenega \texttt{fps} (\textit{frames per second oz. sličic na sekundo}) združimo s funkcijo \texttt{ustvari\_video} v video datoteko.
 
 \section{Primeri risanja nihal}
-Poleg osnovnih dveh nihal, ki sta prikazana na sliki \ref{fig:primer_dvojno} in \ref{fig:primer_trojno} sva se lotili še nekaj bolj zanimivih primerov. Prav tako sva se igrali z barvami, zato se bodo morda barve na slikah med seboj malo razlikovale. Velik del videoposnetkov je dostopen na \href{https://github.com/nenasefman/n-kratno-nihalo/tree/main/video}{GitHub repozitoriju}.
+Poleg osnovnih dveh nihal, ki sta prikazana na sliki \ref{fig:primer_dvojno} in \ref{fig:primer_trojno} sva se lotili še nekaj bolj zanimivih primerov. Prav tako sva se igrali z barvami, zato se bodo morda barve na slikah med seboj malo razlikovale. Velik del videoposnetkov je dostopen na \href{https://github.com/nenasefman/n-kratno-nihalo/tree/main/video}{GitHub repozitoriju}. 
 
 \subsection{Dvojna nihala v prostoru}
 V tem primeru sva narisali več dvojnih nihal, ki so obešena na različne višine v prostoru. Vsako izmed nihal ima svoje začetne pogoje, torej kota $\theta_1$ in $\theta_2$, mase in dolžini vrvic. Vsa nihala se spustijo iz mirovanja.
@@ -205,12 +205,12 @@ V tem primeru sva narisali več dvojnih nihal, ki so obešena na različne viši
     \centering
     \includegraphics[width=0.6\textwidth]{primer_10x10_slikice_nihal.png}
     \caption{$10 \times 10$ Dvojno nihalo}
-    \label{fig:dvojno_10x10}
+    \label{fig:dvojno_1010}
 \end{figure}
 
 
 
-Primer takšenga risanja je na sliki \ref{fig:dvojno_10x10}.
+Primer takšenga risanja je na sliki \ref{fig:dvojno_1010}.
 
 \subsection{Dvojna nihala kot kvadratki}
 
