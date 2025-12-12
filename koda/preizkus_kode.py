@@ -248,14 +248,15 @@ a = 100
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps)) 
-
+theta1_range=(-np.pi, np.pi)
+theta2_range=(-np.pi, np.pi)
 
 def map_solve(pogoj):
     return resen_sistem_2_numericno(tmax, t, pogoj)
 
 # shranim rešene de za posamezne a
 def export():
-    pogoji = generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi))
+    pogoji = generiraj_zacetne_pogoje_axb(a, b, theta1_range, theta2_range)
     resitve = []
 
     print("Reševanje", len(pogoji))
@@ -269,7 +270,7 @@ def export():
 
 # narišem oz. shranim slikice
 def gen_draw():
-    resitve = np.load(f"./resene_de/data_a{a}.npy")
+    resitve = np.load(f"./resene_de/data_a{a}_theta1{theta1_range}_theta2{theta2_range}.npy")
     shr_dir = f"./output/kvadratki_a{a}"
     animacija_barvanje_kvadratkov_axb(resitve, a, b, dt, shr_dir, fps, shrani=1)
 
@@ -277,7 +278,7 @@ def gen_draw():
 # da ti jih zriše (ko so že shranjeni) in potem še video
 if __name__ == '__main__':
     export()
-    # gen_draw()
+    gen_draw()
     # shrani_v_video("./output/kvadratki_a72", "kvadratki_a72_barva_original_povprecje_dvapi.mp4", fps=30)
 
 
