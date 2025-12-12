@@ -223,7 +223,12 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # imshow prikaže matriko mreža axbx4 (a vrstic, b stolpcev, 4 vrednosti za barvo RGBA)
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
-    img = ax.imshow(mreza, interpolation="nearest", vmin=0, vmax=1, aspect='auto')
+    img = ax.imshow(mreza[:, :, 0, :],  # da vzame točno to eno sliko
+                interpolation="nearest",
+                vmin=0, vmax=1,
+                aspect='auto')
+    
+    # img = ax.imshow(mreza, interpolation="nearest", vmin=0, vmax=1, aspect='auto')
 
     # max_len = min([r.shape[0] for r in reseni_sistemi])
     frame_id = 0

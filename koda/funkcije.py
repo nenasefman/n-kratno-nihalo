@@ -268,18 +268,18 @@ def shrani_v_video(mapa_frameov,
     # preklopimo v mapo z frame-i
     os.chdir(mapa_frameov)
 
-    # FFmpeg ukaz
-    cmd1 = [
-        "ffmpeg",
-        "-y", 
-        "-framerate", str(fps),
-        "-i", vzorec, # npr. frame_00001.png
-        "-pix_fmt", "yuv420p",
-        izhod
-    ]
+    # # FFmpeg ukaz
+    # cmd1 = [
+    #     "ffmpeg",
+    #     "-y", 
+    #     "-framerate", str(fps),
+    #     "-i", vzorec, # npr. frame_00001.png
+    #     "-pix_fmt", "yuv420p",
+    #     izhod
+    # ]
 
-    # izvedi ukaz
-    subprocess.run(cmd1)
+    # # izvedi ukaz
+    # subprocess.run(cmd1)
 
     video_mapa = os.path.abspath(os.path.join(cwd, "video"))  #  absolutna pot
     os.makedirs(video_mapa, exist_ok=True)
