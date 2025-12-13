@@ -261,43 +261,53 @@ l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
 dt = 0.01
-a = 200
+a = 100
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps))
 theta1_range=(- 3* np.pi, 3*np.pi)
-theta2_range=(- 3*np.pi, 3*np.pi/2)
+theta2_range=(0, 3*np.pi)
 theta1_r = '-3pi_3pi'
-theta2_r = '-3pi_3pi'
+theta2_r = '0_3pi'
 
-def map_solve(pogoj):
-    return resen_sistem_2_numericno(tmax, t, pogoj)
+def map_solve(args):
+    id, pogoj = args
+    resen = resen_sistem_2_numericno(tmax, t, pogoj)
+    return id, resen
 
 # shranim rešene de za posamezne a
+# sproti shranjujem rešitve v novo podmapo
 def export():
     pogoji = generiraj_zacetne_pogoje_axb(a, b, theta1_range, theta2_range)
-    resitve = []
+
+    # naredim novo podmapo, kamor shranjujem rešitve (da ne držim vsega v RAMu)
+    shr_dir = f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}"
+    os.makedirs(shr_dir, exist_ok=True)
 
     print("Reševanje", len(pogoji))
     # delam na 4 jedrih
     with Pool(processes=4) as pool:
-        for result in tqdm(pool.imap(map_solve, pogoji), total=len(pogoji)):
-            resitve.append(result)
+        for id, resen in tqdm(pool.imap(map_solve, enumerate(pogoji)), total=len(pogoji)):
+            np.save(f"{shr_dir}/res_{id:06d}.npy", resen)
     
-    resitve = np.array(resitve)
-    np.save(f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}.npy", resitve)
 
 # narišem oz. shranim slikice
 def gen_draw():
-    resitve = np.load(f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}.npy")
+    podatki_dir = f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}"
     shr_dir = f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}"
-    animacija_barvanje_kvadratkov_axb(resitve, a, b, dt, shr_dir, fps, shrani=1)
+
+    files = sorted(glob(os.path.join(podatki_dir, "res_*.npy")))
+
+    reseni_sistemi = [np.load(f) for f in files]
+    
+    animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
+
 
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
 if __name__ == '__main__':
-    # export()
-    gen_draw()
-    shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
-                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_nekinovega_bilinear.mp4", fps=30)
+    export()
+    # gen_draw()
+    # shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
+    #                f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_nekinovega_bilinear.mp4", fps=30)
 

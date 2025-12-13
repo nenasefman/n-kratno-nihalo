@@ -240,4 +240,4 @@ latex.out/
 !*.jpg
 !*.jpeg
 
-resene_de/*.npy
+*.npy
