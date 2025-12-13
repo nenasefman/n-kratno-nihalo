@@ -317,8 +317,8 @@ def generiraj_zacetne_pogoje_axb(a, b, theta1_range=(0, np.pi), theta2_range=(0,
     theta1_vals = np.linspace(theta1_range[0], theta1_range[1], a)
     theta2_vals = np.linspace(theta2_range[0], theta2_range[1], b)
 
-    for t2 in theta2_vals:
-        for t1 in theta1_vals:
+    for t1 in theta1_vals:
+        for t2 in theta2_vals:
             pogoj = np.zeros(4) # naredi array s 4 ničlami tipa float
             pogoj[0] = t1
             pogoj[2] = t2
