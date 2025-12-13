@@ -209,7 +209,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     reseni_sistemi = reseni_sistemi.reshape((a, b, reseni_sistemi.shape[1], 4))
 
     # Barve celega sistema izračunam PRED for zanko (da bo hitreje)
-    mreza = barva_neki_novega_hitro(reseni_sistemi)
+    mreza = barva_arctan_po_intervalih(reseni_sistemi)
 
 
     # Figure 1920x1080
@@ -224,7 +224,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
     img = ax.imshow(mreza[:, :, 0, :],  # da vzame točno to eno sliko
-                interpolation="bilinear",
+                interpolation="nearest",
                 vmin=0, vmax=1,
                 aspect='auto')
     
