@@ -101,22 +101,39 @@ n = 2
 l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
-a = 5
+a = 100
 b = round(a * 16/9)
-T_rep = 1.5
-radij = 0.03
+T_rep = 2
+radij = 0.3
 # f_dz = resen_sistem_n_simbolicno(n)
-# fps = 30
+fps = 30
+theta1_r = '-2pi_2pi'
+theta2_r = '-2pi_2pi'
+
 
 # reseni_sistemi = [ 
 #     resen_sistem_n_numericno_hitreje(f_dz, g_val, m_val, l_val, tmax, fps, zac_pog)
 #     for zac_pog in generiraj_zacetne_pogoje_axb(a, b, theta1_range=(-np.pi, np.pi), theta2_range=(-np.pi, np.pi)) 
 # ]
 
+# resitve = np.load(f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}.npy")
+
+# narisi_sliko_s_thetami(resitve, radij, dt, f"./output/paglavci_a{a}_rep{T_rep}_t1{theta1_r}_t2{theta2_r}_obrezani", fps, T_rep, shrani=1)
+# shrani_v_video(f"./output/paglavci_a{a}_rep{T_rep}_t1{theta1_r}_t2{theta2_r}_obrezani", 
+#                f"paglavci_a{a}_rep{T_rep}_t1{theta1_r}_t2{theta2_r}_obrezani.mp4", fps=30)
 
 
-# narisi_sliko_s_thetami(reseni_sistemi, radij, dt, "./output/crvi_a200_barva_arctan_veliki", fps, T_rep, shrani=1)
-# shrani_v_video("./output/crvi_a200_barva_arctan_veliki", "crvi_a200_barva_arctan_veliki.mp4", fps=30)
+# theta1_r = '-pi_pi'
+# theta2_r = '-pi_pi'
+
+# resitve = np.load(f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}.npy")
+
+# narisi_sliko_s_thetami(resitve, radij, dt, f"./output/paglavci_a{a}_rep{T_rep}_t1{theta1_r}_t2{theta2_r}_obrezani", fps, T_rep, shrani=1)
+# shrani_v_video(f"./output/paglavci_a{a}_rep{T_rep}_t1{theta1_r}_t2{theta2_r}_obrezani", 
+#                f"paglavci_a{a}_rep{T_rep}_t1{theta1_r}_t2{theta2_r}_obrezani.mp4", fps=30)
+
+
+# 
 
 # # še kvadratki
 # animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, "./output/kvadratki_a200_barva_arctan_veliki", fps, shrani=1)
@@ -278,9 +295,9 @@ def gen_draw():
 
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
-if __name__ == '__main__':
-    #export()
-    gen_draw()
-    shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
-                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_bilinear.mp4", fps=30)
+#if __name__ == '__main__':
+#     export()
+#     gen_draw()
+#     shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
+#                    f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}.mp4", fps=30)
 
