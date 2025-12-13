@@ -270,13 +270,13 @@ def narisi_sliko_s_thetami(resen_list, radij, dt, shr_dir, fps, T_rep, shrani=0)
 
     # meje osi
     vse_theta1 = np.concatenate([res[:,0] for res in resen_list])
-    vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
+    # vse_theta2 = np.concatenate([res[:,2] for res in resen_list])
 
     max_theta1 = np.max(np.abs(vse_theta1))
-    max_theta2 = np.max(np.abs(vse_theta2))
+    # max_theta2 = np.max(np.abs(vse_theta2))
 
     margin = 0.6
-    ax.set_xlim(-max_theta2*margin, max_theta2*margin)
+    ax.set_xlim(-max_theta1*margin * 16/9, max_theta1*margin * 16/9)
     ax.set_ylim(-max_theta1*margin, max_theta1*margin)
 
     plt.axis("off")
