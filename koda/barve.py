@@ -275,3 +275,36 @@ def barva_arctan_hitro(tensor, w1=0.8, w2=0.2):
     B = osnovna[...,2]
 
     return np.stack([R, G, B, np.ones(R.shape)], axis=-1)
+
+
+
+def barva_crnobelo_hitro(tensor, w1=0.8, w2=0.2):
+
+    t1 = tensor[:,:,:,0]
+    t2 = tensor[:,:,:,2]
+    
+    value = ((t1 + t2) % (2 * np.pi)) / (2*np.pi)
+
+    R = 1.0 - value
+    G = 1.0 - value
+    B = 1.0 - value
+    A = np.ones_like(R)
+
+    return np.stack([R, G, B, A], axis=-1)
+
+
+def barva_neki_novega_hitro(tensor, w1=0.8, w2=0.2):
+
+    t1 = tensor[:,:,:,0]
+    t2 = tensor[:,:,:,2]
+    
+    hue = (t1 % (2 * np.pi)) / (2*np.pi)
+    value = ( t2 % (np.pi/2) ) / (2*np.pi)
+
+    osnovna = cm.get_cmap('hsv')(hue)
+    R = osnovna[...,0] * (1 - value)
+    G = osnovna[...,1] * (1 - value)
+    B = osnovna[...,2] * (1 - value)
+    A = np.ones_like(R)
+
+    return np.stack([R, G, B, A], axis=-1)

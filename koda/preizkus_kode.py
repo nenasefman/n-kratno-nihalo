@@ -295,9 +295,9 @@ def gen_draw():
 
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
-#if __name__ == '__main__':
-#     export()
-#     gen_draw()
-#     shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
-#                    f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}.mp4", fps=30)
+if __name__ == '__main__':
+    # export()
+    gen_draw()
+    shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
+                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_nekinovega_bilinear.mp4", fps=30)
 

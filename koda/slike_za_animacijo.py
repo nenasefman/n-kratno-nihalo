@@ -209,7 +209,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     reseni_sistemi = reseni_sistemi.reshape((a, b, reseni_sistemi.shape[1], 4))
 
     # Barve celega sistema izračunam PRED for zanko (da bo hitreje)
-    mreza = barva_arctan_hitro(reseni_sistemi)
+    mreza = barva_neki_novega_hitro(reseni_sistemi)
 
 
     # Figure 1920x1080
