@@ -262,13 +262,13 @@ l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
 dt = 0.01
-a = 100
+a = 50
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps))
-theta1_range=(-4*np.pi, 4*np.pi/2)
+theta1_range=(-4*np.pi, 4*np.pi)
 theta2_range=(-np.pi/2, np.pi/2)
-theta1_r = '-4pi_4pi2'
+theta1_r = '-4pi_4pi'
 theta2_r = '-pi2_pi2'
 
 def map_solve(args):
@@ -307,7 +307,7 @@ def gen_draw():
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
 if __name__ == '__main__':
-    #export()
+    export()
     gen_draw()
     shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
-                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_omege_nearest.mp4", fps=30)
+                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_arctan_nearest.mp4", fps=30)
