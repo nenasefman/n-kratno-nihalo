@@ -308,3 +308,69 @@ def barva_neki_novega_hitro(tensor, w1=0.8, w2=0.2):
     A = np.ones_like(R)
 
     return np.stack([R, G, B, A], axis=-1)
+
+
+def barva_arctan_po_intervalih(tensor, w1=0.8, w2=0.2):
+    """
+    - Preslika (theta1, theta2) v hue s atan2
+    - Nato hue preslika v specifične RGB barve po intervalih
+    - Tenzorsko, vrača RGBA array
+    """
+
+    def norm(theta):
+        t = np.mod(theta + np.pi, 2*np.pi)
+        return np.where(t>np.pi, t-2*np.pi, t)
+    
+    t1 = norm(tensor[:,:,:,0])
+    t2 = norm(tensor[:,:,:,2])
+
+    # weighted sum za atan2
+    x = w1*np.cos(t1) + w2*np.cos(t2)
+    y = w1*np.sin(t1) + w2*np.sin(t2)
+    r = np.hypot(x, y)
+    angle_pravi = np.arctan2(y,x)
+    angle_fallback = (t1 + t2)/2.0
+    angle = np.where(r < 1e-12, angle_fallback, angle_pravi)
+
+    # hue 0-1
+    h = np.mod(angle / (2*np.pi), 1.0)
+
+    # pripravimo RGBA array
+    a, b, n_frames = h.shape
+    rgba = np.zeros((a,b,n_frames,4), dtype=np.float32)
+
+    # preslikava hue v specifične barve po intervalih
+    # pretvorimo hue v 0-360 stopinj za lažjo interpretacijo
+    h_deg = h * 360
+
+    mask = (h_deg <= 36)
+    rgba[mask] = [12/255, 12/255, 12/255, 1.0]
+
+    mask = (h_deg > 36) & (h_deg <= 72)
+    rgba[mask] = [119/255, 0, 255/255, 1.0]
+
+    mask = (h_deg > 72) & (h_deg <= 108)
+    rgba[mask] = [19/255, 2/255, 250/255, 1.0]
+
+    mask = (h_deg > 108) & (h_deg <= 144)
+    rgba[mask] = [2/255, 171/255, 250/255, 1.0]
+
+    mask = (h_deg > 144) & (h_deg <= 180)
+    rgba[mask] = [0, 255/255, 72/255, 1.0]
+
+    mask = (h_deg > 180) & (h_deg <= 216)
+    rgba[mask] = [255/255, 242/255, 0, 1.0]
+
+    mask = (h_deg > 216) & (h_deg <= 252)
+    rgba[mask] = [255/255, 100/255, 0, 1.0]
+
+    mask = (h_deg > 252) & (h_deg <= 288)
+    rgba[mask] = [255/255, 0, 0, 1.0]
+
+    mask = (h_deg > 288) & (h_deg <= 324)
+    rgba[mask] = [1.0, 0, 170/255, 1.0]
+
+    mask = (h_deg > 324)
+    rgba[mask] = [1.0, 1.0, 1.0, 1.0]
+
+    return rgba

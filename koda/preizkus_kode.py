@@ -5,7 +5,8 @@ from slike_za_animacijo import *
 from barve import *
 from multiprocessing import Pool
 from tqdm import tqdm
-
+from glob import glob
+from matplotlib.animation import FFMpegWriter
 
 """
 PREIZKUS ZA DVOJNO NIHALO
@@ -265,10 +266,10 @@ a = 100
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps))
-theta1_range=(- 3* np.pi, 3*np.pi)
-theta2_range=(0, 3*np.pi)
-theta1_r = '-3pi_3pi'
-theta2_r = '0_3pi'
+theta1_range=(-4*np.pi, 4*np.pi/2)
+theta2_range=(-np.pi/2, np.pi/2)
+theta1_r = '-4pi_4pi2'
+theta2_r = '-pi2_pi2'
 
 def map_solve(args):
     id, pogoj = args
@@ -298,7 +299,7 @@ def gen_draw():
 
     files = sorted(glob(os.path.join(podatki_dir, "res_*.npy")))
 
-    reseni_sistemi = [np.load(f) for f in files]
+    reseni_sistemi = np.array([np.load(f) for f in files])
     
     animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, shrani=1)
 
@@ -306,8 +307,7 @@ def gen_draw():
 # odkomentiraš kaj želiš zaznati, ne vse na enkrat -> najprej export da ti shrani podatke potem 
 # da ti jih zriše (ko so že shranjeni) in potem še video
 if __name__ == '__main__':
-    export()
-    # gen_draw()
-    # shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
-    #                f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_nekinovega_bilinear.mp4", fps=30)
-
+    #export()
+    gen_draw()
+    shrani_v_video(f"./output/kvadratki_a{a}_theta1{theta1_r}_theta2{theta2_r}", 
+                   f"kv_a{a}_theta1{theta1_r}_theta2{theta2_r}_omege_nearest.mp4", fps=30)
