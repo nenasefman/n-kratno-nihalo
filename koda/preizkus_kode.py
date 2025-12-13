@@ -261,14 +261,14 @@ l_val = [1 for _ in range(n)]
 m_val = [1 for _ in range(n)]
 g_val = 9.81
 dt = 0.01
-a = 500
+a = 200
 b = round(a * 16/9)
 fps = 30
 t = np.linspace(0, tmax, int(tmax * fps))
-theta1_range=(- np.pi, np.pi)
-theta2_range=(- np.pi/2, np.pi/2)
-theta1_r = '-pi_pi'
-theta2_r = '-pi2_pi2'
+theta1_range=(- 3* np.pi, 3*np.pi)
+theta2_range=(- 3*np.pi, 3*np.pi/2)
+theta1_r = '-3pi_3pi'
+theta2_r = '-3pi_3pi'
 
 def map_solve(pogoj):
     return resen_sistem_2_numericno(tmax, t, pogoj)
