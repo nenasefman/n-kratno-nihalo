@@ -1,4 +1,4 @@
-# n-kratno nihalo
+# Animacija dvojnega nihala
 
 
 Ekipa: 
@@ -10,18 +10,14 @@ Mentor:
 
 ## Opis projekta
 
-Projekt obravnava n-kratno (večkratno) nihalo, sestavljeno iz zaporedno povezanih točkastih mas, kjer je vsaka masa pritrjena na naslednjo preko lahke, neelastične niti. Tak sistem predstavlja razširitev enostavnega in dvojnega nihala ter omogoča proučevanje kaotičnega gibanja in nelinearnih dinamičnih pojavov.
+Projekt obravnava dvojno nihalo in njegovo animacijo. Dvojno nihalo je nihalo sestavljeno iz dveh zaporednih točkastih mas, kjer je druga masa pritrjena na prvo preko lahke, neelastične niti. S tem sistemom lahko proučujemo kaotično gibanje nihal in nelinearnih dinamičnih pojavov. 
 
 ## Cilj projekta
 
-Izdelati animacijo n-kratnega nihala:
+Izdelati animacijo dvojnega nihala:
 * Izpeljati enačbe gibanja za n-kratno nihalo.
 * Implementirati numerično simulacijo gibanja v Pythonu.
 * Prikazati gibanje sistema in sled poti mas.
-* Analizirati vpliv začetnih pogojev (dolžine niti, mase, začetni koti, gravitacija) na dinamiko gibanja.
 
-## Časovni načrt
-* oktober: preučiva osnovno (enojno) nihalo in ga sprogramirava
-* november: posplošiva model na dvojno/trojno/n-kratno nihalo in narediva animacijo
-* december: popravljava, kar ne bo delalo
-* januar: priprava predstavitve
+## Uporaba
+Glavna dokumentacija (poročilo) se nahaja v mapi [teorija](teorija), kjer si lahko pogledate več o matematiki za dvojnim in trojnim nihalom, opisani pa so tudi postopki, ki sva jih uporabljali. Večina videov (dobrih in slabših) se nahaja v mapi [video](video). Za animacijo slik, ki sva jih naredili s pomočjo `python` funkcij v mapi [koda](koda), pa sva uporabili [`FFmpeg`](https://www.ffmpeg.org/).
