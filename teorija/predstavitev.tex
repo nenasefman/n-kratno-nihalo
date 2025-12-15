@@ -1,0 +1,177 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovene]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{extarrows, graphicx, hyperref, enumitem}
+\usepackage{caption}
+
+\beamertemplatenavigationsymbolsempty
+
+\definecolor{darkred}{RGB}{139,0,0}
+\mode<presentation>
+{
+  \usetheme{Szeged}
+  \usefonttheme{serif} 
+  \setbeamercovered{transparent}
+
+  \setbeamercolor{frametitle}{fg=darkred, bg=darkred!10} % Naslov okvirjev
+  \setbeamercolor{structure}{fg=darkred} % Strukturni elementi (črte, točke, naslovi delov)
+  \setbeamercolor{title}{fg=darkred, bg=darkred!10} % Naslov predstavitve
+  %\setbeamercolor{item}{fg=darkred} % Točke v seznamih
+
+  \setbeamercolor{block title}{bg=darkred, fg=white} % Okvir za naslov bloka
+  \setbeamercolor{block body}{bg=darkred!10, fg=black} % Telo bloka z nekoliko svetlejšo rdečo barvo
+  \setbeamercolor{theorem}{bg=darkred, fg=white} % Naslov izreka v temno rdeči
+  \setbeamercolor{theorem body}{bg=darkred!10, fg=black} % Telo izreka v svetlejši rdeči 
+}
+
+\setlist[itemize]{label=$\circ$, left=1.5em}
+
+\theoremstyle{plain}
+\newtheorem{izrek}{Izrek}[section]
+
+\theoremstyle{plain}
+\newtheorem{posledica}{Posledica}[section]
+
+\theoremstyle{definition}
+\newtheorem{definicija}{Definicija}[section]
+
+\begin{document}
+
+\title{Animacija dvojnega nihala}
+\author{Nena Šefman Hodnik, Nina Švigelj} 
+\institute[FMF]{Fakulteta za matematiko in fiziko}
+\date{15. december 2025}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+   \titlepage
+\end{frame}
+
+\section{Izpeljava diferencialnih enačb}
+\begin{frame}{Predstavitev problema}
+    \small
+    \begin{minipage}[t]{0.48\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{primer_dveh_slika.png}
+            \caption{Dvojno nihalo}
+            \label{fig:dvojno_vir}
+        \end{figure}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \begin{align*}
+            x_1 &= l_1 \sin(\theta_1) \\
+            x_2 &= l_1 \sin(\theta_1) + l_2 \sin(\theta_2) \\
+            y_1 &= -l_1 \cos(\theta_1) \\
+            y_2 &= -l_1 \cos(\theta_1) - l_2 \cos(\theta_2)
+        \end{align*}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}{Izpeljava diferencialnih enačbza dvojno nihalo}
+    \small
+    \begin{itemize}
+        \item Potencialna energija
+        $$ V = m_1 g(-l_1 \cos\theta_1) + m_2 g(-l_1 \cos\theta_1 - l_2 \cos\theta_2)$$
+        \item Kinetična energija
+        $$T = \frac{m_1}{2}(\dot{x}_1^2 + \dot{y}_1^2) + \frac{m_2}{2}(\dot{x}_2^2 + \dot{y}_2^2)$$
+        \item Lagrangeeva enačba
+        \begin{align*}
+            \mathcal{L} =& \, T - V\\
+            =& \, \frac{1}{2}m_1 l_1^2 \dot{\theta_1}^2 + \frac{1}{2}m_2(l_1^2 \dot{\theta_1}^2 + l_2^2 \dot{\theta_2}^2 + 2 l_1 l_2 \dot{\theta_1} \dot{\theta_2} \cos (\theta_1 - \theta_2)) \\
+            & \, + (m_1 + m_2)l_1 g \cos \theta_1 + m_2 l_2 g \cos \theta_2.
+        \end{align*}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Izpeljava diferencialnih enačb za dvojno nihalo}
+    \small
+    \begin{itemize}
+        \item Euler-Lagrangeeve enačbe
+        $$\frac{d}{dt} \Big(\frac{\partial \mathcal{L}}{\partial \dot{\theta_i}}\Big) = \frac{\partial \mathcal{L}}{\partial \theta_i}, \quad i = 1,2.$$
+        \item Dobimo sistem diferencialnih enačb:
+        % ne vem kako bi to dala da bi pršl lepo
+        \begin{align*}
+            (m_1 + m_2)[l_1 \ddot{\theta_1} + g \sin \theta_1] + m_2 l_2 [\ddot{\theta_2} \cos(\theta_1 - \theta_2) + \dot{\theta_2}^2 \sin(\theta_1-\theta_2)] = 0\\
+            m_2 [l_2 \ddot{\theta_2} + g \sin \theta_2] + m_2 l_1 [\ddot{\theta_1} \cos(\theta_1 - \theta_2) - \dot{\theta_1}^2 \sin(\theta_1 - \theta_2)] =0
+        \end{align*}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Izpeljava diferencialnih enačb za trojno nihalo}
+    \small
+    \begin{itemize}
+        \item Položaj tretje žogice:
+        \begin{align*}
+            x_3 &= l_1 \sin\theta_1 + l_2 \sin \theta_2 + l_3 \sin \theta_3,\\
+            y_3 &= - l_1 \cos \theta_1 - l_2 \cos \theta_2 - l_3 \cos \theta_3,
+        \end{align*}
+        \item Po istem postopku kot za dvojno nihalo dobimo sistem
+        \begin{align*}
+            \theta_1: &\quad (m_1 + m_2 + m_3) [l_1 \ddot{\theta_1} + g \sin \theta_1] + (m_2 + m_3) l_2 [\ddot{\theta_2} \cos (\theta_1 - \theta_2) + \dot{\theta_2}^2 \sin (\theta_1 - \theta_2)] \\
+            & + m_3 l_3 [\ddot{\theta_3} \cos(\theta_1 - \theta_3) + \dot{\theta_3}^2 \sin (\theta_1 - \theta_3)]  = 0\\
+            \theta_2: &\quad (m_2 + m_3) [l_2 \ddot{\theta_2} + g \sin \theta_2] + (m_2 + m_3) l_1 [\ddot{\theta_1} \cos (\theta_1 - \theta_2) - \dot{\theta_1}^2 \sin(\theta_1 - \theta_2)] \\
+            & + m_3 l_3 [\ddot{\theta_3} \cos(\theta_2 - \theta_3) + \dot{\theta_3}^2 \sin(\theta_2 - \theta_3)] = 0\\
+            \theta_3: &\quad m_3 [l_3 \ddot{\theta_3} - g \sin \theta_3] + m_3 l_1 [\ddot{\theta_1} \cos(\theta_1 -\theta_3) - \dot{\theta_1}^2 \sin (\theta_1 - \theta_3)] \\
+            & + m_3 l_2 [\ddot{\theta_2}\cos(\theta_2 - \theta_3) - \dot{\theta_2}^2 \sin(\theta_2 - \theta_3)] = 0
+        \end{align*}
+    \end{itemize}
+\end{frame}
+
+
+\section{Postopek animacije}
+\begin{frame}{Osnovno risanje dvojnega in trojnega nihala}
+    \small
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim=15cm 5cm 10cm 15cm, clip]{primer_narisan_dvojno.png}
+        \caption{Primer slike dvojnega nihala.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim=17cm 1cm 15cm 12cm, clip]{primer_narisan_trojno.png}
+        \caption{Primer slike trojnega nihala.}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}{Dvojna nihala v prostoru}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{primer_10x10_slikice_nihal.png}
+        \caption{$10 \times 10$ Dvojno nihalo}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Dvojna nihala kot kvadratki}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{barvni_kvadratki.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Dvojna nihala kot kvadratki}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{crnobeli_kvadratki.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Dvojna nihala v koordinatnem sistemu $\theta_1, \theta_2$}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.9\textwidth, trim=15cm 8cm 13cm 8cm, clip]{crvi_primer.png}
+    \end{figure}
+\end{frame}
+
+
+
+
+\end{document}

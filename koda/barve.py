@@ -310,7 +310,7 @@ def barva_neki_novega_hitro(tensor, w1=0.8, w2=0.2):
     return np.stack([R, G, B, A], axis=-1)
 
 
-def barva_arctan_po_intervalih(tensor, w1=0.8, w2=0.2):
+def barva_arctan_po_intervalih(frame, w1=0.8, w2=0.2):
     """
     - Preslika (theta1, theta2) v hue s atan2
     - Nato hue preslika v specifične RGB barve po intervalih
@@ -321,8 +321,8 @@ def barva_arctan_po_intervalih(tensor, w1=0.8, w2=0.2):
         t = np.mod(theta + np.pi, 2*np.pi)
         return np.where(t>np.pi, t-2*np.pi, t)
     
-    t1 = norm(tensor[:,:,:,0])
-    t2 = norm(tensor[:,:,:,2])
+    t1 = norm(frame[:,:,0])
+    t2 = norm(frame[:,:,2])
 
     # weighted sum za atan2
     x = w1*np.cos(t1) + w2*np.cos(t2)
@@ -336,8 +336,8 @@ def barva_arctan_po_intervalih(tensor, w1=0.8, w2=0.2):
     h = np.mod(angle / (2*np.pi), 1.0)
 
     # pripravimo RGBA array
-    a, b, n_frames = h.shape
-    rgba = np.zeros((a,b,n_frames,4), dtype=np.float32)
+    a, b = h.shape
+    rgba = np.zeros((a,b,4), dtype=np.float64)
 
     # preslikava hue v specifične barve po intervalih
     # pretvorimo hue v 0-360 stopinj za lažjo interpretacijo
