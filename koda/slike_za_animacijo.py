@@ -208,9 +208,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # 2D array spremenim v 4D strukturo, ki jo lahko uporabim za mrežo slik
     reseni_sistemi = reseni_sistemi.reshape((a, b, reseni_sistemi.shape[1], 4))
 
-    # Barve celega sistema izračunam PRED for zanko (da bo hitreje)
-    mreza = barva_arctan_po_intervalih(reseni_sistemi)
-
+    mreza = np.zeros((a, b, 4), dtype=np.float64)
 
     # Figure 1920x1080
     fig, ax= plt.subplots(figsize=(1920/120, 1080/120), dpi=120, facecolor='black')
@@ -223,7 +221,7 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     # imshow prikaže matriko mreža axbx4 (a vrstic, b stolpcev, 4 vrednosti za barvo RGBA)
     # vmin, vmax sta min in max vrednosti moje barve
     # interpolation="nearest" ohranja oste robove, spremenim lahko z bilinear, bicubic, lanczos, gaussian, ...
-    img = ax.imshow(mreza[:, :, 0, :],  # da vzame točno to eno sliko
+    img = ax.imshow(mreza, 
                 interpolation="nearest",
                 vmin=0, vmax=1,
                 aspect='auto')
@@ -263,8 +261,10 @@ def animacija_barvanje_kvadratkov_axb(reseni_sistemi, a, b, dt, shr_dir, fps, sh
     #     frame_id += 1
 
 
-    for frame_i in range(mreza.shape[2]):
-        img.set_data(mreza[:,:,frame_i,:])
+    for frame_i in range(reseni_sistemi.shape[2]):
+        frame = reseni_sistemi[:,:,frame_i, :]
+        mreza = barva_arctan_po_intervalih(frame)
+        img.set_data(mreza)
         if shrani == 1:
             plt.savefig(f"{shr_dir}/frame_{frame_id:05d}.png", dpi=120, bbox_inches='tight', pad_inches=0)
         else:
