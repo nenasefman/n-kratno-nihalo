@@ -20,4 +20,4 @@ Izdelati animacijo dvojnega nihala:
 * Prikazati gibanje sistema in sled poti mas.
 
 ## Uporaba
-Glavna dokumentacija (poročilo) se nahaja v mapi [teorija](teorija), kjer si lahko pogledate več o matematiki za dvojnim in trojnim nihalom, opisani pa so tudi postopki, ki sva jih uporabljali. Večina videov (dobrih in slabših) se nahaja v mapi [video](video). Za animacijo slik, ki sva jih naredili s pomočjo `python` funkcij v mapi [koda](koda), pa sva uporabili [`FFmpeg`](https://www.ffmpeg.org/).
+Glavna dokumentacija (poročilo) se nahaja v mapi [teorija](teorija), kjer si lahko pogledate več o matematiki za dvojnim in trojnim nihalom, opisani pa so tudi postopki, ki sva jih uporabljali. Večina videov (dobrih in slabših) se nahaja na povezavi [video](https://unilj-my.sharepoint.com/:f:/g/personal/ns18289_student_uni-lj_si/IgAElmhL61QzToGRaEj8znfeAZIM4A04ifJM3ubiuouWRr8?e=CTNc1d). Za animacijo slik, ki sva jih naredili s pomočjo `python` funkcij v mapi [koda](koda), pa sva uporabili [`FFmpeg`](https://www.ffmpeg.org/).
