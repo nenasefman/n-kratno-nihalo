@@ -104,7 +104,6 @@ def mreza_nihal_za_animacijo_axb(reseni_sistemi, a, b, l_val, dt, shr_dir, fps, 
     a       <- število vrstic
     b       <- število stolpcev
     l_val       <- vektor dolžin vrvic 
-    radij   <- radij kroglic
     dt      <- korak s katerim numerično rešujemo diferencialne enačbe
     fps     <- slike na sekundo
     shrani  <- 0 = prikaz v živo, 1 = shranjevanje frameov

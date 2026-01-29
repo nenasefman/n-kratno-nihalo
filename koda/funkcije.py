@@ -298,7 +298,7 @@ def shrani_v_video(mapa_frameov,
     # vrni se nazaj v prejšnjo mapo
     os.chdir(cwd)
 
-    print(f"Video shranjen kot: {os.path.join(mapa_frameov, izhod)}")
+    print(f"Video shranjen kot: {izhod2}")
 
 
 def generiraj_zacetne_pogoje_axb(a, b, theta1_range=(0, np.pi), theta2_range=(0, np.pi)):
