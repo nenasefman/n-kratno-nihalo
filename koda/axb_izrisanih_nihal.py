@@ -198,7 +198,7 @@ if __name__ == "__main__":
     theta1_range = (-np.pi, np.pi)
     theta2_range = (-np.pi, np.pi)
 
-    tmax = 20
+    tmax = 30
     fps = 30
 
     # --- parametri renderja ---
