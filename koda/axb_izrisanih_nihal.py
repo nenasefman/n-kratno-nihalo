@@ -36,7 +36,7 @@ def barva_za_nihala_a_bo_ze_konec_tega_projekta(theta1, theta2, omega1, omega2, 
     R = float(osnovna_barva[0]) * svetlost
     G = float(osnovna_barva[1]) * svetlost
     B = float(osnovna_barva[2]) * svetlost
-    A = float(0.3 + 0.7 * ((V1 + V2) / 2.0))
+    A = float(0.1 + 0.9 * ((V1 + V2) / 2.0))
 
     return (R, G, B, A)
 
@@ -195,8 +195,8 @@ if __name__ == "__main__":
     a = 20
     b = round(a * 16 / 9)
 
-    theta1_range = (-np.pi, np.pi)
-    theta2_range = (-np.pi, np.pi)
+    theta1_range = (-2*np.pi/3, 2*np.pi/3)
+    theta2_range = (-2*np.pi/3, 2*np.pi/3)
 
     tmax = 30
     fps = 30
@@ -204,11 +204,11 @@ if __name__ == "__main__":
     # --- parametri renderja ---
     l1, l2 = 1.0, 1.0
     px_cell = 16
-    line_px = 2.0
+    line_px = 5.0
 
     # --- mape (podoben stil kot tvoj) ---
-    theta1_r = "-pi_pi"
-    theta2_r = "-pi_pi"
+    theta1_r = "-2pi3_2pi3"
+    theta2_r = "-2pi3_2pi3"
     data_dir = f"./resene_de/data_a{a}_theta1{theta1_r}_theta2{theta2_r}"
     frames_dir = f"./output/mreza_nihal_cairo_a{a}_theta1{theta1_r}_theta2{theta2_r}"
 
