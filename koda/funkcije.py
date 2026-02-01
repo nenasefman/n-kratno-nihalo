@@ -286,10 +286,12 @@ def shrani_v_video(mapa_frameov,
     izhod2 = os.path.join(video_mapa, izhod)
 
     cmd2 = [
-        "ffmpeg",
-        "-y",
+        "ffmpeg", "-y",
         "-framerate", str(fps),
         "-i", vzorec,
+        "-c:v", "libx264",
+        "-crf", "16",
+        "-preset", "slow",
         "-pix_fmt", "yuv420p",
         izhod2
     ]

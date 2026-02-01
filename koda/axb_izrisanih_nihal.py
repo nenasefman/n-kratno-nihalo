@@ -36,7 +36,7 @@ def barva_za_nihala_a_bo_ze_konec_tega_projekta(theta1, theta2, omega1, omega2, 
     R = float(osnovna_barva[0]) * svetlost
     G = float(osnovna_barva[1]) * svetlost
     B = float(osnovna_barva[2]) * svetlost
-    A = float(0.1 + 0.9 * ((V1 + V2) / 2.0))
+    A = float(0.5 + 0.5 * ((V1 + V2) / 2.0))
 
     return (R, G, B, A)
 
@@ -203,8 +203,8 @@ if __name__ == "__main__":
 
     # --- parametri renderja ---
     l1, l2 = 1.0, 1.0
-    px_cell = 16
-    line_px = 5.0
+    px_cell = 54
+    line_px = 12.0
 
     # --- mape (podoben stil kot tvoj) ---
     theta1_r = "-2pi3_2pi3"
@@ -239,5 +239,5 @@ if __name__ == "__main__":
 
     shrani_v_video(
         f"./output/mreza_nihal_cairo_a{a}_theta1{theta1_r}_theta2{theta2_r}",
-        f"mreza_nihal_cairo_a{a}_theta1{theta1_r}_theta2{theta2_r}_koncna.mp4",
+        f"mreza_nihal_cairo_a{a}_theta1{theta1_r}_theta2{theta2_r}_druga_barva.mp4",
         fps=30)
